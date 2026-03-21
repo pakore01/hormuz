@@ -1,0 +1,91 @@
+/* ═══════════════════════════════════════════════
+   base.css — Reset, variables CSS, tipografía
+   Hormuz Intelligence Platform v8
+═══════════════════════════════════════════════ */
+
+/* DARK THEME (default) */
+:root, [data-theme="dark"] {
+  --bg:#04080f; --bg2:#060c15; --sur:#080e1a; --sur2:#0b1220;
+  --bor:#0f1a2e; --bor2:#152238; --bor3:#1c2d48;
+  --acc:#f97316; --red:#ef4444; --grn:#10b981; --ylw:#f59e0b;
+  --blu:#3b82f6; --pur:#8b5cf6; --cyn:#06b6d4;
+  --txt:#dde4f0; --txt2:#b8c5d8; --mut:#2d4060; --mut2:#3d5578; --mut3:#4d6a90;
+  --card:#070d19; --card2:#090f1e;
+  --shadow:rgba(0,0,0,.6);
+}
+
+/* LIGHT THEME */
+[data-theme="light"] {
+  --bg:#f5f7fa; --bg2:#eef1f6; --sur:#ffffff; --sur2:#f0f2f7;
+  --bor:#dde3ed; --bor2:#c8d0e0; --bor3:#b0bcd0;
+  --acc:#e05a00; --red:#dc2626; --grn:#059669; --ylw:#d97706;
+  --blu:#2563eb; --pur:#7c3aed; --cyn:#0891b2;
+  --txt:#0f172a; --txt2:#334155; --mut:#64748b; --mut2:#475569; --mut3:#334155;
+  --card:#ffffff; --card2:#f8fafc;
+  --shadow:rgba(0,0,0,.12);
+}
+
+/* FLUID TYPOGRAPHY SCALE */
+:root {
+  --fs-xs:  clamp(.48rem, .8vw,  .58rem);
+  --fs-sm:  clamp(.60rem, .9vw,  .72rem);
+  --fs-md:  clamp(.72rem, 1.1vw, .85rem);
+  --fs-lg:  clamp(.85rem, 1.3vw, 1rem);
+  --fs-xl:  clamp(1rem,   1.8vw, 1.4rem);
+  --fs-2xl: clamp(1.2rem, 2.5vw, 1.8rem);
+  --fs-3xl: clamp(1.5rem, 3.5vw, 2.5rem);
+  --fs-hero:clamp(1.8rem, 5vw,   3.5rem);
+  --radius:    8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --gap: clamp(.5rem, 1.5vw, 1.2rem);
+}
+
+/* RESET */
+*, *::before, *::after {
+  margin: 0; padding: 0; box-sizing: border-box;
+  transition: background-color .25s, border-color .25s, color .15s;
+}
+
+html { font-size: 16px; scroll-behavior: smooth; }
+
+body {
+  font-family: 'Syne', sans-serif;
+  background: var(--bg);
+  color: var(--txt);
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.5;
+}
+
+/* GRAIN OVERLAY */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 9998; opacity: .35;
+}
+[data-theme="light"] body::before { opacity: .12; }
+
+/* SCROLLBAR */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--bor3); border-radius: 3px; }
+
+/* UTILITY CLASSES */
+.font-mono  { font-family: 'JetBrains Mono', monospace; }
+.font-bebas { font-family: 'Bebas Neue', sans-serif; }
+.text-acc   { color: var(--acc); }
+.text-red   { color: var(--red); }
+.text-grn   { color: var(--grn); }
+.text-ylw   { color: var(--ylw); }
+.text-mut   { color: var(--mut3); }
+.up { color: var(--red); }
+.dn { color: var(--grn); }
+.cor { color: var(--acc); }
+.cre { color: var(--red); }
+.cgr { color: var(--grn); }
+.cyl { color: var(--ylw); }
+.ccy { color: var(--cyn); }
+.cup { color: var(--red); }
+.cdn { color: var(--grn); }
