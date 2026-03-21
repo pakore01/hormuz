@@ -95,13 +95,14 @@ var DEFAULT_MODULES = [
   {id:'chat',      label:'Chat IA',          icon:'AI',   minRole:'analyst',enabled:true},
   {id:'calc',      label:'Calculadora',      icon:'CALC', minRole:'viewer', enabled:true},
   {id:'prediccion',label:'Prediccion IA',    icon:'PRED', minRole:'analyst',enabled:true},
-  {id:'updates',   label:'Log Sistema',      icon:'LOG',  minRole:'analyst',enabled:true}
+  {id:'updates',   label:'Log Sistema',      icon:'LOG',  minRole:'analyst',enabled:true},
+  {id:'electricidad',label:'Red Electrica',   icon:'ELEC', minRole:'viewer', enabled:true}
 ];
 
 var PERMS = {
-  viewer:  ['map','news','fuel','tankers','calc'],
-  analyst: ['map','tension','news','fuel','flows','tankers','charts','chat','calc','prediccion','updates'],
-  admin:   ['map','tension','news','fuel','flows','tankers','charts','chat','calc','prediccion','updates','admin']
+  viewer:  ['map','news','fuel','tankers','calc','electricidad'],
+  analyst: ['map','tension','news','fuel','flows','tankers','charts','chat','calc','prediccion','updates','electricidad'],
+  admin:   ['map','tension','news','fuel','flows','tankers','charts','chat','calc','prediccion','updates','electricidad','admin']
 };
 
 var DEFAULT_THRESHOLDS = {

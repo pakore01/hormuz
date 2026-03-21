@@ -1066,6 +1066,136 @@
 </div>
 
 
+
+<!-- RED ELECTRICA ESPANA -->
+<div id="tab-electricidad" class="panel">
+<div style="padding:1.2rem">
+
+  <!-- ALERTA BANNER -->
+  <div id="elec-alerta-banner" style="display:none;background:linear-gradient(90deg,rgba(239,68,68,.18),rgba(239,68,68,.06));border:2px solid rgba(239,68,68,.5);border-radius:10px;padding:1rem 1.2rem;margin-bottom:1.2rem;align-items:center;gap:.8rem;animation:aP 1.8s ease-in-out infinite">
+    <span style="font-size:1.4rem">⚡</span>
+    <div style="flex:1">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;color:#ef4444;margin-bottom:.2rem">ALERTA RED ELECTRICA</div>
+      <div id="elec-alerta-msg" style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:#dde4f0"></div>
+    </div>
+  </div>
+
+  <!-- 28A BANNER -->
+  <div id="elec-28a" style="display:none;background:linear-gradient(90deg,rgba(239,68,68,.25),rgba(239,68,68,.08));border:2px solid #ef4444;border-radius:10px;padding:1rem 1.2rem;margin-bottom:1.2rem;align-items:center;gap:.8rem">
+    <span style="font-size:1.6rem">🚨</span>
+    <div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:2px;color:#ef4444">CONDICIONES SIMILARES AL APAGON DEL 28A</div>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#b8c5d8;margin-top:.2rem">Precio muy bajo + hora critica solar detectados. Monitorizar con atencion.</div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:220px 1fr;gap:1.2rem;margin-bottom:1.2rem">
+
+    <!-- GAUGE RIESGO -->
+    <div style="background:var(--card2);border:1px solid var(--bor2);border-radius:var(--radius-lg);padding:1.2rem;display:flex;flex-direction:column;align-items:center">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:var(--acc);letter-spacing:2px;text-transform:uppercase;margin-bottom:1rem;text-align:center">RIESGO APAGON</div>
+      <svg viewBox="0 0 180 95" style="width:160px;height:auto;margin-bottom:.6rem">
+        <path d="M 10 90 A 80 80 0 0 1 170 90" fill="none" stroke="#0f1a2e" stroke-width="14" stroke-linecap="round"/>
+        <path id="elec-gauge-arc" d="M 10 90 A 80 80 0 0 1 170 90" fill="none" stroke="#10b981" stroke-width="14" stroke-linecap="round" stroke-dasharray="251" stroke-dashoffset="220" style="transition:stroke-dashoffset 1s ease,stroke .5s"/>
+        <line x1="90" y1="90" x2="90" y2="18" stroke="#fff" stroke-width="2" stroke-linecap="round" transform="rotate(-80,90,90)" style="transition:transform 1s ease"/>
+        <circle cx="90" cy="90" r="5" fill="#f97316"/>
+        <text x="8"   y="88" font-size="7" fill="#3d5578" font-family="monospace">0</text>
+        <text x="79"  y="14" font-size="7" fill="#3d5578" font-family="monospace" text-anchor="middle">50</text>
+        <text x="162" y="88" font-size="7" fill="#3d5578" font-family="monospace">100</text>
+      </svg>
+      <div id="elec-gauge-val" style="font-family:'Bebas Neue',sans-serif;font-size:3rem;line-height:1;color:#10b981">--</div>
+      <div id="elec-gauge-nivel" style="font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:2px;text-transform:uppercase;color:#10b981;margin-top:.2rem">--</div>
+      <div id="elec-hora-critica" style="font-family:'JetBrains Mono',monospace;font-size:.52rem;margin-top:.6rem;text-align:center;color:#10b981">--</div>
+    </div>
+
+    <!-- FACTORES + KPIs -->
+    <div style="display:flex;flex-direction:column;gap:.8rem">
+
+      <!-- KPIs precios -->
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.6rem">
+        <div style="background:var(--card2);border:1px solid var(--bor2);border-radius:var(--radius);padding:.75rem;text-align:center">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.48rem;color:var(--mut3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:.3rem">Precio actual</div>
+          <div id="elec-precio-actual" style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--acc)">-- EUR/MWh</div>
+          <div id="elec-precio-kwh" style="font-family:'JetBrains Mono',monospace;font-size:.52rem;color:var(--mut3)">-- EUR/kWh</div>
+        </div>
+        <div style="background:var(--card2);border:1px solid var(--bor2);border-radius:var(--radius);padding:.75rem;text-align:center">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.48rem;color:var(--mut3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:.3rem">Max / Min hoy</div>
+          <div id="elec-precio-max" style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--red)">--</div>
+          <div id="elec-precio-min" style="font-family:'Bebas Neue',sans-serif;font-size:1rem;color:var(--grn)">--</div>
+        </div>
+        <div style="background:var(--card2);border:1px solid var(--bor2);border-radius:var(--radius);padding:.75rem;text-align:center">
+          <div style="font-family:'JetBrains Mono',monospace;font-size:.48rem;color:var(--mut3);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:.3rem">Media dia</div>
+          <div id="elec-precio-medio" style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem;color:var(--ylw)">-- EUR/MWh</div>
+          <div id="elec-updated" style="font-family:'JetBrains Mono',monospace;font-size:.48rem;color:var(--mut3)">--</div>
+        </div>
+      </div>
+
+      <!-- Factores de riesgo -->
+      <div style="background:var(--card2);border:1px solid var(--bor2);border-radius:var(--radius);padding:.9rem">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:var(--acc);letter-spacing:2px;text-transform:uppercase;margin-bottom:.8rem">FACTORES DE RIESGO</div>
+
+        <div style="margin-bottom:.65rem">
+          <div style="display:flex;justify-content:space-between;margin-bottom:.25rem">
+            <span style="font-size:.68rem;color:var(--txt2)">Precio bajo (exceso renovable)</span>
+            <span id="elec-fv-precio_bajo" style="font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700">--</span>
+          </div>
+          <div style="height:5px;background:var(--bor);border-radius:3px;overflow:hidden"><div id="elec-f-precio_bajo" style="height:100%;width:0%;background:#10b981;border-radius:3px;transition:width .8s"></div></div>
+        </div>
+
+        <div style="margin-bottom:.65rem">
+          <div style="display:flex;justify-content:space-between;margin-bottom:.25rem">
+            <span style="font-size:.68rem;color:var(--txt2)">Hora critica solar (10-15h)</span>
+            <span id="elec-fv-hora_solar" style="font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700">--</span>
+          </div>
+          <div style="height:5px;background:var(--bor);border-radius:3px;overflow:hidden"><div id="elec-f-hora_solar" style="height:100%;width:0%;background:#10b981;border-radius:3px;transition:width .8s"></div></div>
+        </div>
+
+        <div>
+          <div style="display:flex;justify-content:space-between;margin-bottom:.25rem">
+            <span style="font-size:.68rem;color:var(--txt2)">Volatilidad precio dia</span>
+            <span id="elec-fv-volatilidad" style="font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:700">--</span>
+          </div>
+          <div style="height:5px;background:var(--bor);border-radius:3px;overflow:hidden"><div id="elec-f-volatilidad" style="height:100%;width:0%;background:#10b981;border-radius:3px;transition:width .8s"></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GRAFICO PRECIOS POR HORA -->
+  <div style="background:var(--card2);border:1px solid var(--bor2);border-radius:var(--radius-lg);padding:1.1rem;margin-bottom:1.2rem">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.8rem;flex-wrap:wrap;gap:.5rem">
+      <div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;color:var(--acc)">PRECIO HORA A HORA — HOY</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:var(--mut3)">Barras rojas = precio bajo = posible exceso renovable = mayor riesgo</div>
+      </div>
+      <button onclick="fetchRiesgoElectrico()" class="news-refresh" style="background:rgba(59,130,246,.1);border-color:rgba(59,130,246,.26);color:var(--blu)">ACTUALIZAR</button>
+    </div>
+    <div style="position:relative;height:200px"><canvas id="elec-chart"></canvas></div>
+  </div>
+
+  <!-- INFO EXPLICACION -->
+  <div style="background:var(--card2);border:1px solid var(--bor2);border-radius:var(--radius-lg);padding:1.1rem">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:var(--acc);letter-spacing:2px;text-transform:uppercase;margin-bottom:.8rem">COMO SE CALCULA EL INDICE DE RIESGO</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+      <div>
+        <div style="font-size:.72rem;color:var(--txt2);line-height:1.7">
+          <div style="margin-bottom:.4rem"><span style="color:var(--ylw)">Precio bajo (50%)</span> — Cuando el precio mayorista es muy bajo significa que hay exceso de generacion renovable (solar/eolico) sobre la demanda. En el 28A estaba en 2-5 EUR/MWh.</div>
+          <div style="margin-bottom:.4rem"><span style="color:var(--ylw)">Hora solar critica (30%)</span> — Entre las 10h y 15h la generacion fotovoltaica es maxima. Si coincide con precio bajo el riesgo es mayor.</div>
+          <div><span style="color:var(--ylw)">Volatilidad (20%)</span> — Grandes diferencias entre el precio max y min del dia indican inestabilidad en el sistema.</div>
+        </div>
+      </div>
+      <div style="background:rgba(239,68,68,.05);border:1px solid rgba(239,68,68,.15);border-radius:var(--radius);padding:.9rem">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:var(--red);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:.6rem">EL APAGON DEL 28A — 2025</div>
+        <div style="font-size:.68rem;color:var(--txt2);line-height:1.7">
+          A las 12:33h el precio estaba en <strong style="color:var(--red)">2 EUR/MWh</strong>. Generacion solar fotovoltaica al <strong style="color:var(--red)">~60%</strong> del mix. Cinco minutos despues la red colapso y el consumo cayo a la mitad. El sistema detecto el desequilibrio entre oferta renovable y demanda real.
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</div>
+
 </div><!-- /#panels-container -->
 </div><!-- /#app -->
 
@@ -1112,6 +1242,7 @@ var MAP_IMGS = {
 <script src="js/prediccion.js"></script>
 <script src="js/admin.js"></script>
 <script src="js/pwa.js"></script>
+<script src="js/electricidad.js"></script>
 <script src="js/app.js"></script>
 
 </body>

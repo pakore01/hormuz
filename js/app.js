@@ -53,7 +53,7 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape') exitPres()
 var TAB_ICONS = {
   map:'🗺️', tension:'🌡️', news:'📰', fuel:'⛽', flows:'🌊',
   tankers:'🚢', charts:'📊', chat:'💬', calc:'🧮',
-  prediccion:'🤖', updates:'🔄', admin:'⚙️'
+  prediccion:'🤖', updates:'🔄', electricidad:'⚡', admin:'⚙️'
 };
 
 function buildTabs(){
@@ -149,6 +149,7 @@ function showTab(tab, btn){
   if(tab==='fuel')        calcAllFuel();
   if(tab==='flows')       setTimeout(startFlows, 100);
   if(tab==='updates')     renderLog();
+  if(tab==='electricidad') { startRiesgoTimer(); }
   if(tab==='calc')        calcImpact();
   if(tab==='prediccion'){
     var pd=document.getElementById('pred-brent'); if(pd) pd.textContent='$'+STATE.brent.toFixed(1);
@@ -175,6 +176,7 @@ function initApp(){
   setTimeout(startFuelTimer, 1000);
   setTimeout(startBrentTimer, 2000);
   setTimeout(startREETimer, 3000);
+  setTimeout(startRiesgoTimer, 4000);
   requestNotifPermission();
   setTimeout(initMapTouch, 1000);
   var now2 = Date.now();
