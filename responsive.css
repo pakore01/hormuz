@@ -1,0 +1,137 @@
+/* ═══════════════════════════════════════════════
+   responsive.css — Sidebar adaptativa todos los dispositivos
+   Hormuz Intelligence Platform v9
+═══════════════════════════════════════════════ */
+
+/* MOBILE OVERLAY */
+#mob-overlay{
+  display:none;position:fixed;inset:0;
+  background:rgba(0,0,0,.55);z-index:199;
+  backdrop-filter:blur(2px);
+}
+#mob-overlay.show{display:block;}
+
+/* ── TABLET ≤1024px ── */
+@media(max-width:1024px){
+  :root{--sidebar-w:200px;}
+  .sbar{grid-template-columns:repeat(4,1fr);}
+  .adm-layout{grid-template-columns:150px 1fr;}
+  .adm-form-grid{grid-template-columns:1fr;}
+}
+
+/* ── TABLET PORTRAIT ≤768px ── */
+@media(max-width:768px){
+  :root{--sidebar-w:240px;}
+
+  /* Sidebar slides in */
+  #sidebar{
+    transform:translateX(-100%);
+    box-shadow:4px 0 32px rgba(0,0,0,.7);
+  }
+  #sidebar.open{
+    transform:translateX(0);
+  }
+
+  /* Main content takes full width */
+  #main{margin-left:0;}
+
+  /* Show hamburger */
+  .topbar-ham{display:flex;}
+
+  /* Stats bar 2 cols */
+  .sbar{grid-template-columns:repeat(2,1fr);}
+
+  /* Hide less critical topbar items */
+  .hdr-date{display:none;}
+  .tension-pill{display:none;}
+  .live-pill{display:none;}
+
+  /* Panels padding */
+  .panel.active{padding-bottom:12px;}
+
+  /* Map height */
+  #map-wrap{height:clamp(250px,50vw,380px);}
+
+  /* Hide map legend on small screens */
+  #mleg{display:none;}
+
+  /* Admin */
+  .adm-layout{grid-template-columns:1fr;}
+  .adm-nav{flex-direction:row;flex-wrap:wrap;}
+  .adm-audit-row{grid-template-columns:80px 1fr auto;}
+  .adm-audit-row>*:nth-child(2),
+  .adm-audit-row>*:nth-child(3){display:none;}
+
+  /* Flows canvas height */
+  #flows-canvas{height:260px;}
+
+  /* Chat height */
+  #tab-chat.active{height:calc(100vh - 230px);}
+
+  /* Table — hide some columns */
+  td:nth-child(4),td:nth-child(5),td:nth-child(8),
+  th:nth-child(4),th:nth-child(5),th:nth-child(8){display:none;}
+  .fbtn:not(.fbtn-keep){display:none;}
+}
+
+/* ── MOBILE ≤640px ── */
+@media(max-width:640px){
+  .sbar{grid-template-columns:repeat(2,1fr);}
+  .orow{grid-template-columns:repeat(2,1fr);}
+  .ak-inp{max-width:85px;}
+  .ak-sep{display:none;}
+  #api-bar{font-size:.5rem;}
+  .topbar-title{font-size:var(--fs-xl);}
+  #mtt{min-width:145px;max-width:185px;}
+  .tension-pill{display:none;}
+  /* SIE news grid single col */
+  #sie-news-grid{grid-template-columns:1fr!important;}
+  /* Fuel grid */
+  #spain-main-grid{grid-template-columns:repeat(2,1fr)!important;}
+}
+
+/* ── SMALL MOBILE ≤480px ── */
+@media(max-width:480px){
+  .sbar{grid-template-columns:1fr 1fr;}
+  #map-wrap{height:clamp(220px,60vw,320px);}
+  #mcnt{display:none;}
+  .adm-form-grid{grid-template-columns:1fr;}
+}
+
+/* ── IPHONE 13 SPECIFIC (390x844) ── */
+@media(max-width:390px){
+  :root{--sidebar-w:260px;}
+  .sbar{grid-template-columns:1fr 1fr;}
+  .topbar{height:46px;}
+  .topbar-title{font-size:var(--fs-lg);}
+  .panel{padding:.7rem;}
+  #map-wrap{height:280px;}
+  .kpi-grid{grid-template-columns:1fr 1fr;}
+}
+
+/* ── LANDSCAPE MOBILE ── */
+@media(max-height:500px) and (orientation:landscape){
+  #map-wrap{height:calc(100vh - 160px);min-height:200px;}
+  #tab-chat.active{height:calc(100vh - 180px);}
+  .sbar{display:none;}
+}
+
+/* ── LARGE SCREENS ≥1440px ── */
+@media(min-width:1440px){
+  :root{--sidebar-w:250px;}
+  .sbar{grid-template-columns:repeat(7,1fr);}
+}
+
+/* ── PRINT ── */
+@media print{
+  #sidebar,#api-bar,#ticker,#alert-bar,footer{display:none!important;}
+  #main{margin-left:0!important;}
+  .panel.active{display:block!important;}
+}
+
+/* Tension responsive */
+@media(max-width:768px){
+  #tab-tension [style*="grid-template-columns:1fr 2fr"]{
+    grid-template-columns:1fr!important;
+  }
+}

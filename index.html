@@ -76,7 +76,7 @@
 
 <!-- APP -->
 <div id="app" style="display:none">
-<div style="display:flex;min-height:100vh">
+<div style="display:flex;min-height:100vh;position:relative">
 
   <!-- ═══ SIDEBAR ═══ -->
   <aside id="sidebar">
@@ -231,42 +231,45 @@
 
 <!-- TENSION -->
 <div id="tab-tension" class="panel">
-<div style="padding:1.1rem">
-  <div class="t-main">
-    <div class="tgbig">
-      <div class="tgbig-ttl">INDICE TENSION GEOPOLITICA</div>
-      <div class="g-wrap">
-        <svg viewBox="0 0 180 95">
-          <path d="M 10 90 A 80 80 0 0 1 170 90" fill="none" stroke="#0f1a2e" stroke-width="14" stroke-linecap="round"/>
-          <defs>
-            <linearGradient id="gGrad" x1="0%" y1="0%" x2="100%" y2="0%">
-              <stop offset="0%" stop-color="#10b981"/><stop offset="50%" stop-color="#f59e0b"/><stop offset="100%" stop-color="#ef4444"/>
-            </linearGradient>
-          </defs>
-          <path d="M 10 90 A 80 80 0 0 1 170 90" fill="none" stroke="url(#gGrad)" stroke-width="14" stroke-linecap="round" stroke-dasharray="251" stroke-dashoffset="0" opacity="0.2"/>
-          <path id="g-arc" d="M 10 90 A 80 80 0 0 1 170 90" fill="none" stroke="url(#gGrad)" stroke-width="14" stroke-linecap="round" stroke-dasharray="251" stroke-dashoffset="55" style="transition:stroke-dashoffset 1s ease"/>
-          <line id="g-needle" x1="90" y1="90" x2="90" y2="18" stroke="#fff" stroke-width="2" stroke-linecap="round" transform="rotate(-60,90,90)" style="transition:transform 1s ease"/>
+<div style="padding:var(--gap)">
+
+  <div style="display:grid;grid-template-columns:1fr 2fr;gap:var(--gap);margin-bottom:var(--gap)">
+
+    <!-- Gauge -->
+    <div style="background:var(--card2);border:1px solid var(--bor2);border-radius:var(--rl);padding:1.4rem;display:flex;flex-direction:column;align-items:center">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:var(--fs-xs);color:var(--acc);letter-spacing:2px;text-transform:uppercase;margin-bottom:1.1rem;text-align:center">INDICE TENSION GEOPOLITICA</div>
+      <div style="position:relative;width:clamp(130px,25vw,170px);margin-bottom:.75rem">
+        <svg viewBox="0 0 180 95" style="width:100%;height:auto">
+          <path d="M 10 90 A 80 80 0 0 1 170 90" fill="none" stroke="#0e1c2e" stroke-width="14" stroke-linecap="round"/>
+          <defs><linearGradient id="gGrad" x1="0%" y1="0%" x2="100%" y2="0%"><stop offset="0%" stop-color="#10b981"/><stop offset="50%" stop-color="#f59e0b"/><stop offset="100%" stop-color="#ef4444"/></linearGradient></defs>
+          <path d="M 10 90 A 80 80 0 0 1 170 90" fill="none" stroke="url(#gGrad)" stroke-width="14" stroke-linecap="round" stroke-dasharray="251" stroke-dashoffset="0" opacity="0.18"/>
+          <path id="g-arc" d="M 10 90 A 80 80 0 0 1 170 90" fill="none" stroke="#f59e0b" stroke-width="14" stroke-linecap="round" stroke-dasharray="251" stroke-dashoffset="55" style="transition:stroke-dashoffset 1s ease,stroke .5s ease"/>
+          <line id="g-needle" x1="90" y1="90" x2="90" y2="18" stroke="#fff" stroke-width="2.5" stroke-linecap="round" transform="rotate(-60,90,90)" style="transition:transform 1s ease"/>
           <circle cx="90" cy="90" r="5" fill="#f97316"/>
-          <text x="8" y="88" font-size="7" fill="#3d5578" font-family="monospace">0</text>
-          <text x="79" y="14" font-size="7" fill="#3d5578" font-family="monospace" text-anchor="middle">50</text>
-          <text x="162" y="88" font-size="7" fill="#3d5578" font-family="monospace">100</text>
+          <text x="8"   y="88" font-size="7" fill="#3d5a7a" font-family="monospace">0</text>
+          <text x="79"  y="14" font-size="7" fill="#3d5a7a" font-family="monospace" text-anchor="middle">50</text>
+          <text x="162" y="88" font-size="7" fill="#3d5a7a" font-family="monospace">100</text>
         </svg>
       </div>
-      <div class="g-val" id="g-val" style="color:#ef4444">78</div>
-      <div class="g-lbl" id="g-lbl" style="color:#ef4444">CRITICO</div>
+      <div id="g-val" class="g-val" style="color:var(--ylw)">78</div>
+      <div id="g-lbl" class="g-lbl" style="color:var(--ylw)">CRÍTICO</div>
     </div>
-    <div class="tcomps">
-      <div class="tcomps-ttl">COMPONENTES DEL INDICE</div>
+
+    <!-- Components -->
+    <div style="background:var(--card2);border:1px solid var(--bor2);border-radius:var(--rl);padding:var(--gap)">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:var(--fs-xs);color:var(--acc);letter-spacing:2px;text-transform:uppercase;margin-bottom:.85rem">COMPONENTES DEL ÍNDICE</div>
       <div id="tc-items"></div>
     </div>
   </div>
-  <div class="thist">
-    <div class="thist-ttl">EVOLUCION HISTORICA FEB-MAR 2026</div>
-    <div class="thist-wrap"><canvas id="tension-chart"></canvas></div>
-  </div>
-</div>
-</div>
 
+  <!-- History chart -->
+  <div style="background:var(--card2);border:1px solid var(--bor2);border-radius:var(--rl);padding:var(--gap)">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:var(--fs-xs);color:var(--acc);letter-spacing:2px;text-transform:uppercase;margin-bottom:.75rem">EVOLUCIÓN TENSIÓN — DESDE 28 FEB 2026</div>
+    <div style="position:relative;height:clamp(95px,14vw,125px)"><canvas id="tension-chart"></canvas></div>
+  </div>
+
+</div>
+</div>
 <!-- NEWS -->
 <div id="tab-news" class="panel">
 <div style="padding:1.1rem">
