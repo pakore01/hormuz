@@ -94,26 +94,22 @@ function startREETimer(){
   reeTimer=setInterval(fetchREE, 60*60*1000);
 }
 
-var reeRiesgoTimer2 = null;
+/* ── REE RIESGO each 5min ── */
+var _reeRisgoTimer = null;
 function startRiesgoTimer(){
-  fetchRiesgoElectrico2();
-  if(reeRiesgoTimer2) clearInterval(reeRiesgoTimer2);
-  reeRiesgoTimer2 = setInterval(fetchRiesgoElectrico2, 5*60*1000);
+  _fetchReeRiesgo();
+  if(_reeRisgoTimer) clearInterval(_reeRisgoTimer);
+  _reeRisgoTimer = setInterval(_fetchReeRiesgo, 5*60*1000);
 }
-function fetchRiesgoElectrico2(){
-  fetch('https://ree-riesgo.pa-kore.workers.dev/')
-  .then(function(r){ return r.json(); })
+function _fetchReeRiesgo(){
+  if(!WORKERS.reeRiesgo) return;
+  fetch(WORKERS.reeRiesgo)
+  .then(function(r){return r.json();})
   .then(function(d){
-    if(d.riesgo_apagon !== undefined){
-      if(typeof renderRiesgoElectrico === 'function') renderRiesgoElectrico(d);
-      var sr = document.getElementById('s-ree'); if(sr){ sr.textContent=d.precio_mwh+' EUR/MWh'; sr.style.color=d.color_alerta||'var(--ylw)'; }
-      var sr2 = document.getElementById('s-ree2'); if(sr2) sr2.textContent=d.precio_kwh.toFixed(3)+' EUR/kWh';
-      var ne = document.getElementById('ns-ree'); if(ne){ ne.textContent=d.precio_mwh+' EUR/MWh'; ne.style.color=d.color_alerta||'var(--ylw)'; }
-      if(d.alerta_activa && d.mensaje_alerta){
-        showAlert('⚡ '+d.mensaje_alerta);
-        sendNotif('⚡ Red Eléctrica', d.mensaje_alerta);
-        addLog('alert', d.mensaje_alerta, 'REE Riesgo');
-      }
-    }
+    if(d.riesgo_apagon===undefined) return;
+    if(typeof renderRiesgoElectrico==='function') renderRiesgoElectrico(d);
+    var sr=document.getElementById('s-ree'); if(sr){sr.textContent=d.precio_mwh+' EUR/MWh';sr.style.color=d.color_alerta||'var(--ylw)';}
+    var sr2=document.getElementById('s-ree2'); if(sr2) sr2.textContent=d.precio_kwh.toFixed(3)+' EUR/kWh';
+    if(d.alerta_activa&&d.mensaje_alerta){showAlert('⚡ '+d.mensaje_alerta);sendNotif('⚡ Red Eléctrica',d.mensaje_alerta);addLog('alert',d.mensaje_alerta,'REE Riesgo');}
   }).catch(function(){});
 }

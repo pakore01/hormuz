@@ -128,3 +128,10 @@
   #main{margin-left:0!important;}
   .panel.active{display:block!important;}
 }
+
+/* Tension responsive */
+@media(max-width:768px){
+  #tab-tension [style*="grid-template-columns:1fr 2fr"]{
+    grid-template-columns:1fr!important;
+  }
+}

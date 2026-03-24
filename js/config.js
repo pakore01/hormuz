@@ -6,13 +6,12 @@
 
 /* ── WORKERS ── */
 var WORKERS = {
-  miteco:   'https://miteco-precios.pa-kore.workers.dev/',
-  ree:      'https://ree-electricidad.pa-kore.workers.dev/',
-  reeRiesgo:'https://ree-riesgo.pa-kore.workers.dev/',
-  brent:    'https://brent-precio.pa-kore.workers.dev/',
-  eurusd:   '',
-  gasttf:   '',
-  iea:      ''
+  miteco:    'https://miteco-precios.pa-kore.workers.dev/',
+  ree:       'https://ree-electricidad.pa-kore.workers.dev/',
+  reeRiesgo: 'https://ree-riesgo.pa-kore.workers.dev/',
+  brent:     'https://brent-precio.pa-kore.workers.dev/',
+  eurusd:    '',
+  gasttf:    ''
 };
 
 /* ── CRISIS START DATE ── */
@@ -107,7 +106,7 @@ var DEFAULT_MODULES = [
 var PERMS = {
   viewer:  ['map','news','fuel','tankers','calc','electricidad'],
   analyst: ['map','tension','news','fuel','flows','tankers','charts','chat','calc','prediccion','updates','electricidad'],
-  admin:   ['map','tension','news','fuel','flows','tankers','charts','chat','calc','prediccion','updates','electricidad','admin','sie'],
+  admin:   ['map','tension','news','fuel','flows','tankers','charts','chat','calc','prediccion','updates','electricidad','sie','admin'],
   sie:     ['map','news','fuel','tankers','calc','electricidad','sie']
 };
 
