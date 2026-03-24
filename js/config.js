@@ -6,12 +6,9 @@
 
 /* ── WORKERS ── */
 var WORKERS = {
-  miteco:    'https://miteco-precios.pa-kore.workers.dev/',
-  ree:       'https://ree-electricidad.pa-kore.workers.dev/',
-  reeRiesgo: 'https://ree-riesgo.pa-kore.workers.dev/',
-  brent:     'https://brent-precio.pa-kore.workers.dev/',
-  eurusd:    '',
-  gasttf:    ''
+  miteco: 'https://miteco-precios.pa-kore.workers.dev/',
+  ree:    'https://ree-electricidad.pa-kore.workers.dev/',
+  brent:  'https://brent-precio.pa-kore.workers.dev/'
 };
 
 /* ── CRISIS START DATE ── */
@@ -99,15 +96,13 @@ var DEFAULT_MODULES = [
   {id:'calc',      label:'Calculadora',      icon:'CALC', minRole:'viewer', enabled:true},
   {id:'prediccion',label:'Prediccion IA',    icon:'PRED', minRole:'analyst',enabled:true},
   {id:'updates',   label:'Log Sistema',      icon:'LOG',  minRole:'analyst',enabled:true},
-  {id:'electricidad',label:'Red Electrica',   icon:'ELEC', minRole:'viewer', enabled:true},
-  {id:'sie',        label:'SIE Intel',        icon:'SIE',  minRole:'sie',    enabled:true}
+  {id:'electricidad',label:'Red Electrica',   icon:'ELEC', minRole:'viewer', enabled:true}
 ];
 
 var PERMS = {
   viewer:  ['map','news','fuel','tankers','calc','electricidad'],
   analyst: ['map','tension','news','fuel','flows','tankers','charts','chat','calc','prediccion','updates','electricidad'],
-  admin:   ['map','tension','news','fuel','flows','tankers','charts','chat','calc','prediccion','updates','electricidad','sie','admin'],
-  sie:     ['map','news','fuel','tankers','calc','electricidad','sie']
+  admin:   ['map','tension','news','fuel','flows','tankers','charts','chat','calc','prediccion','updates','electricidad','admin']
 };
 
 var DEFAULT_THRESHOLDS = {
@@ -120,8 +115,7 @@ var DEFAULT_THRESHOLDS = {
 var DEFAULT_USERS = {
   'admin':   {pass:'admin123',   role:'admin',   name:'Administrador',  created:'2026-02-28'},
   'analista':{pass:'analista123',role:'analyst', name:'Analista Senior',created:'2026-02-28'},
-  'viewer':  {pass:'viewer123',  role:'viewer',  name:'Visualizador',   created:'2026-02-28'},
-  'sie':     {pass:'sie2026',    role:'sie',     name:'Agente SIE',     created:'2026-02-28'}
+  'viewer':  {pass:'viewer123',  role:'viewer',  name:'Visualizador',   created:'2026-02-28'}
 };
 
 var MAP_IMGS   = {region:'', hormuz:'', mandeb:''};

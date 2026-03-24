@@ -22,9 +22,9 @@ function auditLog(action,detail,module){
   var entry={ts:new Date().toISOString(),user:currentUser?currentUser.username:'anon',role:currentUser?currentUser.role:'—',action:action,detail:detail,module:module||'—'};
   AUDIT_LOG.unshift(entry);
   if(AUDIT_LOG.length>200) AUDIT_LOG.pop();
-  var stored=lsGet('hip9_audit')||[];
+  var stored=lsGet('hip8_audit')||[];
   stored.unshift(entry);
-  lsSet('hip9_audit',stored.slice(0,200));
+  lsSet('hip8_audit',stored.slice(0,200));
 }
 
 function initPublicMode(){
@@ -78,7 +78,7 @@ function doLogin(){
   if(ub) ub.style.display='flex';
   var lb=document.getElementById('logout-btn');
   if(lb) lb.style.display='block';
-  try{sessionStorage.setItem('hip9s',enc(JSON.stringify({u:u})));}catch(e){}
+  try{sessionStorage.setItem('hip8s',enc(JSON.stringify({u:u})));}catch(e){}
   auditLog('LOGIN','Acceso al sistema','—');
   buildTabs();
 }
@@ -86,7 +86,7 @@ function doLogin(){
 function doLogout(){
   auditLog('LOGOUT','Sesion cerrada','—');
   currentUser=null; isPublicMode=true;
-  try{sessionStorage.removeItem('hip9s');}catch(e){}
+  try{sessionStorage.removeItem('hip8s');}catch(e){}
   document.body.className='role-viewer public-mode';
   var hint=document.getElementById('admin-hint');
   if(hint) hint.style.display='flex';
