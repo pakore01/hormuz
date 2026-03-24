@@ -12,10 +12,10 @@ function lsGet(k){ try{ var v=localStorage.getItem(k); return v?JSON.parse(dec(v
 function lsSet(k,v){ try{ localStorage.setItem(k,enc(JSON.stringify(v))); }catch(e){} }
 function lsDel(k){ try{ localStorage.removeItem(k); }catch(e){} }
 
-function getUsers(){ return lsGet('hip9_users')||DEFAULT_USERS; }
-function saveUsers(u){ lsSet('hip9_users',u); }
+function getUsers(){ return lsGet('hip8_users')||DEFAULT_USERS; }
+function saveUsers(u){ lsSet('hip8_users',u); }
 function getModules(){
-  var stored=lsGet('hip9_mods');
+  var stored=lsGet('hip8_mods');
   if(stored){
     var hasCalc  = stored.some(function(m){return m.id==='calc';});
     var hasElec  = stored.some(function(m){return m.id==='electricidad';});
@@ -23,11 +23,11 @@ function getModules(){
   }
   return stored||DEFAULT_MODULES;
 }
-function saveModules(m){ lsSet('hip9_mods',m); }
-function getThresholds(){ return lsGet('hip9_thr')||DEFAULT_THRESHOLDS; }
-function saveThresholds(t){ lsSet('hip9_thr',t); }
-function getKPIs(){ return lsGet('hip9_kpis')||DEFAULT_KPIS; }
-function saveKPIs(k){ lsSet('hip9_kpis',k); }
+function saveModules(m){ lsSet('hip8_mods',m); }
+function getThresholds(){ return lsGet('hip8_thr')||DEFAULT_THRESHOLDS; }
+function saveThresholds(t){ lsSet('hip8_thr',t); }
+function getKPIs(){ return lsGet('hip8_kpis')||DEFAULT_KPIS; }
+function saveKPIs(k){ lsSet('hip8_kpis',k); }
 
 var DEFAULT_KPIS = [
   {id:'ships',  label:'Buques',    enabled:true, color:'cre'},
