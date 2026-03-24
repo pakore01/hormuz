@@ -6,9 +6,13 @@
 
 /* ── WORKERS ── */
 var WORKERS = {
-  miteco: 'https://miteco-precios.pa-kore.workers.dev/',
-  ree:    'https://ree-electricidad.pa-kore.workers.dev/',
-  brent:  'https://brent-precio.pa-kore.workers.dev/'
+  miteco:   'https://miteco-precios.pa-kore.workers.dev/',
+  ree:      'https://ree-electricidad.pa-kore.workers.dev/',
+  reeRiesgo:'https://ree-riesgo.pa-kore.workers.dev/',
+  brent:    'https://brent-precio.pa-kore.workers.dev/',
+  eurusd:   '', /* pendiente — worker eurusd.pa-kore.workers.dev */
+  gasttf:   '', /* pendiente — worker gas-ttf.pa-kore.workers.dev */
+  iea:      ''  /* pendiente — worker reservas-iea.pa-kore.workers.dev */
 };
 
 /* ── CRISIS START DATE ── */
@@ -84,25 +88,20 @@ var NEWS = [
 ];
 
 /* ── MODULE SYSTEM ── */
+/* v9 — 6 Centros de Inteligencia */
 var DEFAULT_MODULES = [
-  {id:'map',       label:'Mapa Real',        icon:'MAP',  minRole:'viewer', enabled:true},
-  {id:'tension',   label:'Tension',          icon:'TEN',  minRole:'analyst',enabled:true},
-  {id:'news',      label:'Noticias',         icon:'NOT',  minRole:'viewer', enabled:true},
-  {id:'fuel',      label:'Combustibles',     icon:'GAS',  minRole:'viewer', enabled:true},
-  {id:'flows',     label:'Flujos Petroleo',  icon:'FLU',  minRole:'analyst',enabled:true},
-  {id:'tankers',   label:'Barcos',           icon:'BAR',  minRole:'viewer', enabled:true},
-  {id:'charts',    label:'Graficos',         icon:'GRA',  minRole:'analyst',enabled:true},
-  {id:'chat',      label:'Chat IA',          icon:'AI',   minRole:'analyst',enabled:true},
-  {id:'calc',      label:'Calculadora',      icon:'CALC', minRole:'viewer', enabled:true},
-  {id:'prediccion',label:'Prediccion IA',    icon:'PRED', minRole:'analyst',enabled:true},
-  {id:'updates',   label:'Log Sistema',      icon:'LOG',  minRole:'analyst',enabled:true},
-  {id:'electricidad',label:'Red Electrica',   icon:'ELEC', minRole:'viewer', enabled:true}
+  {id:'operaciones',   label:'Operaciones',    icon:'OPS',  minRole:'viewer', enabled:true},
+  {id:'crisis',        label:'Crisis',         icon:'CRI',  minRole:'viewer', enabled:true},
+  {id:'energia',       label:'Energia',        icon:'ENE',  minRole:'viewer', enabled:true},
+  {id:'mercados',      label:'Mercados',       icon:'MER',  minRole:'viewer', enabled:true},
+  {id:'inteligencia',  label:'Inteligencia IA',icon:'IA',   minRole:'analyst',enabled:true},
+  {id:'admin',         label:'Admin',          icon:'ADM',  minRole:'admin',  enabled:true}
 ];
 
 var PERMS = {
-  viewer:  ['map','news','fuel','tankers','calc','electricidad'],
-  analyst: ['map','tension','news','fuel','flows','tankers','charts','chat','calc','prediccion','updates','electricidad'],
-  admin:   ['map','tension','news','fuel','flows','tankers','charts','chat','calc','prediccion','updates','electricidad','admin']
+  viewer:  ['operaciones','crisis','energia','mercados'],
+  analyst: ['operaciones','crisis','energia','mercados','inteligencia'],
+  admin:   ['operaciones','crisis','energia','mercados','inteligencia','admin']
 };
 
 var DEFAULT_THRESHOLDS = {

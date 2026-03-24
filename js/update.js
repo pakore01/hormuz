@@ -12,9 +12,9 @@ var _nkv  = false;
 /* Load saved API keys */
 (function(){
   try{
-    var rk=localStorage.getItem('hip8_k');
+    var rk=localStorage.getItem('hip9_k');
     if(rk){ var v=dec(rk); if(v.indexOf('sk-')===0){ _key=v; document.getElementById('apiKey').value=v; setSt('ok','Activa'); } }
-    var nk=localStorage.getItem('hip8_nk');
+    var nk=localStorage.getItem('hip9_nk');
     if(nk){ var v2=dec(nk); if(v2.length>8){ _nkey=v2; document.getElementById('newsKey').value=v2; var nel=document.getElementById('nkst'); if(nel){nel.textContent='Activa';nel.className='ak-st ok';} } }
   }catch(e){}
 })();
@@ -22,16 +22,16 @@ var _nkv  = false;
 function saveKey(){
   var v=(document.getElementById('apiKey').value||'').trim();
   var btn=document.getElementById('ak-save1');
-  if(!v){ _key=''; try{localStorage.removeItem('hip8_k');}catch(e){} setSt('','Sin clave'); btn.textContent='GUARDAR'; btn.classList.remove('saved'); return; }
+  if(!v){ _key=''; try{localStorage.removeItem('hip9_k');}catch(e){} setSt('','Sin clave'); btn.textContent='GUARDAR'; btn.classList.remove('saved'); return; }
   if(v.indexOf('sk-')!==0||v.length<15){ setSt('err','Formato invalido'); return; }
-  _key=v; try{localStorage.setItem('hip8_k',enc(v));}catch(e){}
+  _key=v; try{localStorage.setItem('hip9_k',enc(v));}catch(e){}
   setSt('ok','Activa'); btn.textContent='OK'; btn.classList.add('saved');
   setTimeout(function(){ btn.textContent='GUARDAR'; btn.classList.remove('saved'); },2000);
 }
 function saveNewsKey(){
   var v=(document.getElementById('newsKey').value||'').trim();
   if(v.length<8) return;
-  _nkey=v; try{localStorage.setItem('hip8_nk',enc(v));}catch(e){}
+  _nkey=v; try{localStorage.setItem('hip9_nk',enc(v));}catch(e){}
   var el=document.getElementById('nkst'); if(el){el.textContent='Activa';el.className='ak-st ok';}
   loadNews();
 }
@@ -42,12 +42,12 @@ document.getElementById('apiKey').addEventListener('keydown',function(e){if(e.ke
 
 function loadState(){
   try{
-    var r=lsGet('hip8_upd');
+    var r=lsGet('hip9_upd');
     if(r){ if(r.state)Object.assign(STATE,r.state); if(r.log)LOG.push.apply(LOG,r.log.slice(-50)); return r.nextAt?new Date(r.nextAt):null; }
   }catch(e){}
   return null;
 }
-function saveState(){ lsSet('hip8_upd',{state:STATE,log:LOG.slice(-50),nextAt:nextAt?nextAt.toISOString():null}); }
+function saveState(){ lsSet('hip9_upd',{state:STATE,log:LOG.slice(-50),nextAt:nextAt?nextAt.toISOString():null}); }
 function addLog(type,msg,src){ LOG.unshift({time:new Date().toISOString(),type:type,msg:msg,src:src}); if(LOG.length>100)LOG.pop(); renderLog(); saveState(); }
 function renderLog(){
   var body=document.getElementById('ulog-body');

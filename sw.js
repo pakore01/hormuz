@@ -1,9 +1,9 @@
 /* ═══════════════════════════════════════════════
    sw.js — Service Worker
-   Hormuz Intelligence Platform v8
+   Hormuz Intelligence Platform v9
 ═══════════════════════════════════════════════ */
 
-var CACHE_NAME = 'hormuz-v8-cache';
+var CACHE_NAME = 'hormuz-v9-cache';
 var URLS_TO_CACHE = [
   './',
   './index.html',
