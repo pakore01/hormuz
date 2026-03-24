@@ -222,7 +222,33 @@ function doCSV(){
   document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(url);
 }
 
+
+function renderBarcosSidebar(){
+  var el=document.getElementById('barcos-lista');
+  if(!el) return;
+  var SC={loaded:'#f97316',attacked:'#ef4444',transit:'#10b981',waiting:'#f59e0b'};
+  var SL={loaded:'CARGADO',attacked:'ATACADO',transit:'TRANSITO',waiting:'ESPERA'};
+  var html='';
+  var top=SHIPS.slice(0,8);
+  for(var i=0;i<top.length;i++){
+    var s=top[i];
+    var glow=s.s==='attacked'?';box-shadow:0 0 6px '+SC[s.s]:'';
+    html+='<div style="display:flex;align-items:center;gap:.6rem;padding:.45rem .6rem;border-radius:6px;background:var(--bg);border:1px solid var(--bor);margin-bottom:.3rem">'+
+      '<div style="width:8px;height:8px;border-radius:50%;background:'+SC[s.s]+';flex-shrink:0'+glow+'"></div>'+
+      '<div style="flex:1;min-width:0">'+
+        '<div style="font-size:var(--fs-xs);font-weight:700;color:var(--txt);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">'+san(s.n)+'</div>'+
+        '<div style="font-family:JetBrains Mono,monospace;font-size:.46rem;color:var(--mut3)">'+san(s.p)+'</div>'+
+      '</div>'+
+      '<span style="font-family:JetBrains Mono,monospace;font-size:.44rem;padding:1px 5px;border-radius:3px;white-space:nowrap;color:'+SC[s.s]+'">'+SL[s.s]+'</span>'+
+    '</div>';
+  }
+  el.innerHTML=html;
+}
 function initOperaciones(){
   renderMap();
   renderTable();
+  renderBarcosSidebar();
+  /* Update bloqueo KPI */
+  var sb = document.getElementById('s-bloqueo');
+  if(sb){ var d=Math.floor((new Date()-CRISIS_START)/(1000*60*60*24)); sb.textContent='Día '+d; }
 }
