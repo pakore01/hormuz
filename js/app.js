@@ -53,7 +53,8 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape') exitPres()
 var TAB_ICONS = {
   map:'🗺️', tension:'🌡️', news:'📰', fuel:'⛽', flows:'🌊',
   tankers:'🚢', charts:'📊', chat:'💬', calc:'🧮',
-  prediccion:'🤖', updates:'🔄', electricidad:'⚡', admin:'⚙️'
+  prediccion:'🤖', updates:'🔄', electricidad:'⚡', admin:'⚙️',
+  intel:'🕵️'
 };
 
 function buildTabs(){
@@ -150,6 +151,7 @@ function showTab(tab, btn){
   if(tab==='flows')       setTimeout(startFlows, 100);
   if(tab==='updates')     renderLog();
   if(tab==='electricidad') { startRiesgoTimer(); }
+  if(tab==='intel')        { initIntel(); }
   if(tab==='calc')        calcImpact();
   if(tab==='prediccion'){
     var pd=document.getElementById('pred-brent'); if(pd) pd.textContent='$'+STATE.brent.toFixed(1);

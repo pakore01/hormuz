@@ -19,7 +19,8 @@ function getModules(){
   if(stored){
     var hasCalc  = stored.some(function(m){return m.id==='calc';});
     var hasElec  = stored.some(function(m){return m.id==='electricidad';});
-    if(!hasCalc || !hasElec) stored=null;
+    var hasIntel = stored.some(function(m){return m.id==='intel';});
+    if(!hasCalc || !hasElec || !hasIntel) stored=null;
   }
   return stored||DEFAULT_MODULES;
 }
