@@ -161,3 +161,22 @@
   .sbar { grid-template-columns: repeat(2,1fr); }
   .adm-form-grid { grid-template-columns: 1fr; }
 }
+
+/* ── INTEL — responsive ── */
+@media (max-width: 768px) {
+  .intel-header        { flex-direction: column; gap: .75rem; }
+  .intel-header-right  { width: 100%; justify-content: flex-start; }
+  .intel-legend        { gap: .6rem; }
+  .intel-legend-item   { font-size: .48rem; }
+  .intel-card-hdr      { flex-direction: column; align-items: flex-start; }
+}
+
+@media (max-width: 480px) {
+  .intel-sev-filters   { gap: .25rem; }
+  .intel-sev-btn       { padding: .22rem .5rem; font-size: .44rem; }
+  .intel-ag-btn        { font-size: .44rem; padding: .18rem .45rem; }
+  .intel-translate-btn { font-size: .44rem; padding: .28rem .6rem; }
+  .intel-refresh-btn   { font-size: .44rem; padding: .28rem .5rem; }
+  .intel-legend        { display: none; }
+}
+
