@@ -1197,6 +1197,60 @@
 </div>
 
 </div><!-- /#panels-container -->
+
+<!-- INTEL -->
+<div id="tab-intel" class="panel">
+  <div class="intel-wrap">
+
+    <!-- CABECERA -->
+    <div class="intel-header">
+      <div class="intel-header-left">
+        <div class="intel-title">🕵️ INTELIGENCIA GLOBAL</div>
+        <div class="intel-subtitle">Alertas geopolíticas · 9 agencias · Actualización automática cada 15 min</div>
+      </div>
+      <div class="intel-header-right">
+        <span id="intel-tr-status" class="intel-tr-status"></span>
+        <button id="intel-translate-btn" class="intel-translate-btn" onclick="translateIntelNews()">🌐 Traducir al Español</button>
+        <button class="intel-refresh-btn" onclick="refreshIntel()">⟳ Actualizar</button>
+      </div>
+    </div>
+
+    <!-- ESTADO -->
+    <div id="intel-status" class="intel-status-bar">Iniciando módulo de inteligencia...</div>
+
+    <!-- FILTROS GRAVEDAD -->
+    <div class="intel-sev-filters">
+      <button class="intel-sev-btn active" onclick="setIntelFilterSev('all',this)">TODOS</button>
+      <button class="intel-sev-btn intel-sev-critical" onclick="setIntelFilterSev('critical',this)">⚠ CRÍTICO</button>
+      <button class="intel-sev-btn intel-sev-high"     onclick="setIntelFilterSev('high',this)">▲ ALTO</button>
+      <button class="intel-sev-btn intel-sev-medium"   onclick="setIntelFilterSev('medium',this)">● MEDIO</button>
+      <button class="intel-sev-btn intel-sev-low"      onclick="setIntelFilterSev('low',this)">▸ INFO</button>
+    </div>
+
+    <!-- FILTROS AGENCIA -->
+    <div id="intel-ag-filters" class="intel-ag-filters"></div>
+
+    <!-- LEYENDA AGENCIAS -->
+    <div class="intel-legend">
+      <div class="intel-legend-item"><span class="intel-legend-dot" style="background:#3b82f6"></span>CIA · NSA · MI6 · DGSE (occidente)</div>
+      <div class="intel-legend-item"><span class="intel-legend-dot" style="background:#ef4444"></span>FSB · MSS (bloque Este)</div>
+      <div class="intel-legend-item"><span class="intel-legend-dot" style="background:#f97316"></span>CNI · BND (Europa)</div>
+      <div class="intel-legend-item"><span class="intel-legend-dot" style="background:#10b981"></span>Fuentes abiertas verificadas</div>
+    </div>
+
+    <!-- LISTA DE ALERTAS -->
+    <div id="intel-list" class="intel-list">
+      <div class="intel-loading">
+        <span class="intel-loading-dot"></span>
+        <span class="intel-loading-dot"></span>
+        <span class="intel-loading-dot"></span>
+        <span style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--mut3);margin-left:.5rem">Conectando con fuentes de inteligencia...</span>
+      </div>
+    </div>
+
+  </div>
+</div><!-- /#tab-intel -->
+
 </div><!-- /#app -->
 
 <!-- BOTTOM NAV -->
@@ -1243,6 +1297,7 @@ var MAP_IMGS = {
 <script src="js/admin.js"></script>
 <script src="js/pwa.js"></script>
 <script src="js/electricidad.js"></script>
+<script src="js/intel.js"></script>
 <script src="js/app.js"></script>
 
 </body>
