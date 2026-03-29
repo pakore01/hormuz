@@ -18,26 +18,6 @@
 </head>
 <body>
 
-<!-- LOGIN (solo admin) -->
-<div id="login-screen" style="display:none">
-  <div class="login-wrap">
-    <div class="login-logo">HIP</div>
-    <div class="login-sub">Hormuz Intelligence Platform &middot; v8</div>
-    <div class="login-box">
-      <label class="lbl">Usuario Admin</label>
-      <input class="linp" id="lu" type="text" placeholder="usuario" autocomplete="off" spellcheck="false">
-      <label class="lbl">Contrase&ntilde;a</label>
-      <input class="linp" id="lp" type="password" placeholder="contrase&ntilde;a" autocomplete="off">
-      <button class="lbtn" onclick="doLogin()">ACCEDER</button>
-      <div class="lerr" id="lerr"></div>
-    </div>
-    <button id="login-back-btn" onclick="backToPublic()">&larr; Volver al dashboard p&uacute;blico</button>
-    <div class="lstatbar">
-      <span><span class="lsdot"></span>SISTEMA OPERATIVO</span>
-      <span>&middot;</span><span id="ls-clk"></span>
-    </div>
-  </div>
-</div>
 
 <!-- PRESENTATION -->
 <div id="pres-overlay">
@@ -83,15 +63,6 @@
     <button class="pres-btn" onclick="enterPres()">BOARDROOM</button>
     <span class="hdate" id="hdate">--</span>
     <div class="live-pill"><div class="live-dot"></div><span style="font-family:'JetBrains Mono',monospace;font-size:.52rem;color:#ef4444;letter-spacing:1px">LIVE</span></div>
-    <div id="admin-hint" onclick="showAdminLogin()" title="Acceso administrador">
-      <span style="font-size:.85rem">🔐</span>
-      <span class="ah-txt">Admin</span>
-    </div>
-    <div class="ub" id="user-badge" style="display:none">
-      <div class="ub-av" id="ub-av">?</div>
-      <div><div class="ub-name" id="ub-name">--</div><div class="ub-role" id="ub-role">--</div></div>
-    </div>
-    <button class="logout-btn" id="logout-btn" style="display:none" onclick="doLogout()">SALIR</button>
     <button class="theme-btn" id="theme-toggle" onclick="toggleTheme()" title="Cambiar tema">☀</button>
     <button class="hamburger-btn" id="hamburger-btn" onclick="toggleMobileMenu()">
       <div class="ham-line"></div>
@@ -436,156 +407,6 @@
       <div class="ulog-body" id="ulog-body"><div style="padding:2rem;text-align:center;font-family:'JetBrains Mono',monospace;font-size:.62rem;color:#2d4060">Sin actualizaciones aun.</div></div>
     </div>
   </div>
-</div>
-
-
-<!-- CALCULADORA IMPACTO PERSONAL -->
-<div id="tab-calc" class="panel">
-<div style="padding:1.2rem">
-  <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:3px;color:#f97316;margin-bottom:.3rem">CALCULADORA DE IMPACTO PERSONAL</div>
-  <div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;color:#4d6a90;margin-bottom:1.5rem">Cuanto te esta costando la crisis del Estrecho de Hormuz a ti cada mes</div>
-
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-bottom:1.5rem">
-    <div style="background:var(--card2);border:1px solid var(--bor2);border-radius:10px;padding:1.2rem">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;color:#f97316;letter-spacing:2px;text-transform:uppercase;margin-bottom:1rem">VEHICULO</div>
-
-      <div style="margin-bottom:.9rem">
-        <label style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:#4d6a90;letter-spacing:1px;display:block;margin-bottom:.35rem">TIPO DE COMBUSTIBLE</label>
-        <select id="calc-tipo" onchange="calcImpact()" style="width:100%;background:var(--bg);border:1px solid var(--bor3);border-radius:4px;padding:.45rem .7rem;color:var(--txt);font-family:'JetBrains Mono',monospace;font-size:.65rem;outline:none">
-          <option value="sp95">Gasolina SP95</option>
-          <option value="sp98">Gasolina SP98</option>
-          <option value="diesel">Gasoil A (Diesel)</option>
-          <option value="dieselp">Gasoil Premium</option>
-          <option value="autogas">Autogas GLP</option>
-        </select>
-      </div>
-
-      <div style="margin-bottom:.9rem">
-        <label style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:#4d6a90;letter-spacing:1px;display:block;margin-bottom:.35rem">LITROS AL MES</label>
-        <input id="calc-litros" type="number" value="80" min="1" max="500" oninput="calcImpact()"
-          style="width:100%;background:var(--bg);border:1px solid var(--bor3);border-radius:4px;padding:.45rem .7rem;color:var(--txt);font-family:'JetBrains Mono',monospace;font-size:.7rem;outline:none">
-      </div>
-    </div>
-
-    <div style="background:var(--card2);border:1px solid var(--bor2);border-radius:10px;padding:1.2rem">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;color:#f97316;letter-spacing:2px;text-transform:uppercase;margin-bottom:1rem">HOGAR</div>
-
-      <div style="margin-bottom:.9rem">
-        <label style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:#4d6a90;letter-spacing:1px;display:block;margin-bottom:.35rem">CONSUMO ELECTRICO kWh/MES</label>
-        <input id="calc-kwh" type="number" value="300" min="0" max="2000" oninput="calcImpact()"
-          style="width:100%;background:var(--bg);border:1px solid var(--bor3);border-radius:4px;padding:.45rem .7rem;color:var(--txt);font-family:'JetBrains Mono',monospace;font-size:.7rem;outline:none">
-      </div>
-
-      <div style="margin-bottom:.9rem">
-        <label style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:#4d6a90;letter-spacing:1px;display:block;margin-bottom:.35rem">GASOIL CALEFACCION litros/mes</label>
-        <input id="calc-calef" type="number" value="0" min="0" max="500" oninput="calcImpact()"
-          style="width:100%;background:var(--bg);border:1px solid var(--bor3);border-radius:4px;padding:.45rem .7rem;color:var(--txt);font-family:'JetBrains Mono',monospace;font-size:.7rem;outline:none">
-      </div>
-    </div>
-  </div>
-
-  <!-- RESULTADO -->
-  <div id="calc-result" style="background:linear-gradient(135deg,rgba(249,115,22,.08),rgba(239,68,68,.05));border:1px solid rgba(249,115,22,.2);border-radius:12px;padding:1.5rem;margin-bottom:1.2rem">
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.2rem">
-      <div style="text-align:center">
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.52rem;color:#4d6a90;letter-spacing:1px;text-transform:uppercase;margin-bottom:.3rem">Coste EXTRA/mes</div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:#ef4444" id="calc-extra">--</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.52rem;color:#4d6a90">EUR/mes</div>
-      </div>
-      <div style="text-align:center">
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.52rem;color:#4d6a90;letter-spacing:1px;text-transform:uppercase;margin-bottom:.3rem">Coste EXTRA/año</div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:#f97316" id="calc-anual">--</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.52rem;color:#4d6a90">EUR/año</div>
-      </div>
-      <div style="text-align:center">
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.52rem;color:#4d6a90;letter-spacing:1px;text-transform:uppercase;margin-bottom:.3rem">Gasolina pre-crisis</div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:#10b981" id="calc-antes">--</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.52rem;color:#4d6a90">EUR/mes</div>
-      </div>
-      <div style="text-align:center">
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.52rem;color:#4d6a90;letter-spacing:1px;text-transform:uppercase;margin-bottom:.3rem">Gasolina ahora</div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:#ef4444" id="calc-ahora">--</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.52rem;color:#4d6a90">EUR/mes</div>
-      </div>
-    </div>
-    <div id="calc-msg" style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--txt2);text-align:center;padding:.6rem;background:rgba(0,0,0,.2);border-radius:6px;line-height:1.6"></div>
-  </div>
-
-  <div style="background:var(--card2);border:1px solid var(--bor2);border-radius:8px;padding:1rem">
-    <div style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:#4d6a90;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:.7rem">IMPACTO EN ESPAÑA (estimacion total)</div>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;text-align:center">
-      <div><div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:#ef4444">+4.200M EUR</div><div style="font-family:'JetBrains Mono',monospace;font-size:.52rem;color:#4d6a90">Coste extra gasolina/mes ES</div></div>
-      <div><div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:#f97316">+38%</div><div style="font-family:'JetBrains Mono',monospace;font-size:.52rem;color:#4d6a90">Subida media carburantes</div></div>
-      <div><div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:#f59e0b" id="calc-dias-total">--</div><div style="font-family:'JetBrains Mono',monospace;font-size:.52rem;color:#4d6a90">Dias de bloqueo acumulados</div></div>
-    </div>
-  </div>
-</div>
-</div>
-
-<!-- PREDICCION IA -->
-<div id="tab-prediccion" class="panel">
-<div style="padding:1.2rem">
-  <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:3px;color:#8b5cf6;margin-bottom:.3rem">PREDICCION IA — ESCENARIOS DE CRISIS</div>
-  <div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;color:#4d6a90;margin-bottom:1.5rem">Claude Haiku analiza los datos actuales y genera predicciones sobre la evolucion de la crisis</div>
-
-  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.2rem">
-    <div style="background:var(--card2);border:1px solid var(--bor2);border-radius:8px;padding:1rem">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:#4d6a90;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:.7rem">PARAMETROS DE ANALISIS</div>
-      <div style="font-size:.68rem;color:var(--txt2);line-height:2">
-        <div style="display:flex;justify-content:space-between"><span style="color:#4d6a90">Dias de bloqueo</span><span id="pred-dias" style="color:#f97316;font-family:'JetBrains Mono',monospace">--</span></div>
-        <div style="display:flex;justify-content:space-between"><span style="color:#4d6a90">Brent actual</span><span id="pred-brent" style="color:#f97316;font-family:'JetBrains Mono',monospace">--</span></div>
-        <div style="display:flex;justify-content:space-between"><span style="color:#4d6a90">Buques varados</span><span id="pred-ships" style="color:#ef4444;font-family:'JetBrains Mono',monospace">--</span></div>
-        <div style="display:flex;justify-content:space-between"><span style="color:#4d6a90">Tension</span><span id="pred-tens" style="color:#f59e0b;font-family:'JetBrains Mono',monospace">--</span></div>
-        <div style="display:flex;justify-content:space-between"><span style="color:#4d6a90">Ataques</span><span id="pred-atk" style="color:#ef4444;font-family:'JetBrains Mono',monospace">--</span></div>
-      </div>
-    </div>
-
-    <div style="background:var(--card2);border:1px solid var(--bor2);border-radius:8px;padding:1rem;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:.8rem">
-      <button id="pred-btn" onclick="runPrediccion()"
-        style="background:linear-gradient(135deg,#8b5cf6,#6d28d9);border:none;border-radius:8px;padding:.7rem 1.5rem;color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;cursor:pointer;transition:all .2s;width:100%">
-        GENERAR PREDICCION IA
-      </button>
-      <div style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:#4d6a90;text-align:center">Requiere API key de Anthropic<br>en la barra superior</div>
-      <div id="pred-last" style="font-family:'JetBrains Mono',monospace;font-size:.52rem;color:#2d4060"></div>
-    </div>
-  </div>
-
-  <!-- RESULTADO PREDICCION -->
-  <div id="pred-result" style="display:none">
-    <!-- escenarios -->
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-bottom:1rem" id="pred-scenarios"></div>
-    <!-- analisis completo -->
-    <div style="background:var(--card2);border:1px solid rgba(139,92,246,.2);border-radius:10px;padding:1.2rem;margin-bottom:1rem">
-      <div style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:#8b5cf6;letter-spacing:2px;text-transform:uppercase;margin-bottom:.8rem">ANALISIS COMPLETO</div>
-      <div id="pred-text" style="font-size:.72rem;color:var(--txt2);line-height:1.8;white-space:pre-wrap"></div>
-    </div>
-    <!-- brent prediction -->
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem">
-      <div style="background:var(--card2);border:1px solid var(--bor2);border-radius:8px;padding:1rem;text-align:center">
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.52rem;color:#4d6a90;margin-bottom:.4rem">BRENT 30 DIAS</div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem" id="pred-b30">--</div>
-      </div>
-      <div style="background:var(--card2);border:1px solid var(--bor2);border-radius:8px;padding:1rem;text-align:center">
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.52rem;color:#4d6a90;margin-bottom:.4rem">BRENT 60 DIAS</div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem" id="pred-b60">--</div>
-      </div>
-      <div style="background:var(--card2);border:1px solid var(--bor2);border-radius:8px;padding:1rem;text-align:center">
-        <div style="font-family:'JetBrains Mono',monospace;font-size:.52rem;color:#4d6a90;margin-bottom:.4rem">FIN BLOQUEO EST.</div>
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem" id="pred-fin">--</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- LOADING -->
-  <div id="pred-loading" style="display:none;text-align:center;padding:3rem">
-    <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#8b5cf6;letter-spacing:2px;margin-bottom:1rem">ANALIZANDO DATOS CON IA...</div>
-    <div style="display:flex;justify-content:center;gap:6px">
-      <div style="width:8px;height:8px;border-radius:50%;background:#8b5cf6;animation:tD 1.2s infinite"></div>
-      <div style="width:8px;height:8px;border-radius:50%;background:#8b5cf6;animation:tD 1.2s .2s infinite"></div>
-      <div style="width:8px;height:8px;border-radius:50%;background:#8b5cf6;animation:tD 1.2s .4s infinite"></div>
-    </div>
-  </div>
-</div>
 </div>
 
 
