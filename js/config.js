@@ -96,14 +96,13 @@ var DEFAULT_MODULES = [
   {id:'calc',      label:'Calculadora',      icon:'CALC', minRole:'viewer', enabled:true},
   {id:'prediccion',label:'Prediccion IA',    icon:'PRED', minRole:'analyst',enabled:true},
   {id:'updates',   label:'Log Sistema',      icon:'LOG',  minRole:'analyst',enabled:true},
-  {id:'electricidad',label:'Red Electrica',   icon:'ELEC', minRole:'viewer', enabled:true},
-  {id:'intel',       label:'Inteligencia',    icon:'INT',  minRole:'viewer', enabled:true}
+  {id:'electricidad',label:'Red Electrica',   icon:'ELEC', minRole:'viewer', enabled:true}
 ];
 
 var PERMS = {
-  viewer:  ['map','news','fuel','tankers','calc','electricidad','intel'],
-  analyst: ['map','tension','news','fuel','flows','tankers','charts','chat','calc','prediccion','updates','electricidad','intel'],
-  admin:   ['map','tension','news','fuel','flows','tankers','charts','chat','calc','prediccion','updates','electricidad','admin','intel']
+  viewer:  ['map','news','fuel','tankers','calc','electricidad'],
+  analyst: ['map','tension','news','fuel','flows','tankers','charts','chat','calc','prediccion','updates','electricidad'],
+  admin:   ['map','tension','news','fuel','flows','tankers','charts','chat','calc','prediccion','updates','electricidad','admin']
 };
 
 var DEFAULT_THRESHOLDS = {
@@ -119,7 +118,6 @@ var DEFAULT_USERS = {
   'viewer':  {pass:'viewer123',  role:'viewer',  name:'Visualizador',   created:'2026-02-28'}
 };
 
-var MAP_IMGS   = {region:'', hormuz:'', mandeb:''};
 var MAP_BOUNDS = {
   region: {lngMin:27, lngMax:72, latMax:42, latMin:8},
   hormuz: {lngMin:48, lngMax:62, latMax:28, latMin:21.5},
