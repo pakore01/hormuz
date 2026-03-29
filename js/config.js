@@ -86,23 +86,23 @@ var NEWS = [
 /* ── MODULE SYSTEM ── */
 var DEFAULT_MODULES = [
   {id:'map',       label:'Mapa Real',        icon:'MAP',  minRole:'viewer', enabled:true},
-  {id:'tension',   label:'Tension',          icon:'TEN',  minRole:'analyst',enabled:true},
+  {id:'tension',   label:'Tension',          icon:'TEN',  minRole:'viewer', enabled:true},
   {id:'news',      label:'Noticias',         icon:'NOT',  minRole:'viewer', enabled:true},
   {id:'fuel',      label:'Combustibles',     icon:'GAS',  minRole:'viewer', enabled:true},
-  {id:'flows',     label:'Flujos Petroleo',  icon:'FLU',  minRole:'analyst',enabled:true},
+  {id:'flows',     label:'Flujos Petroleo',  icon:'FLU',  minRole:'viewer', enabled:true},
   {id:'tankers',   label:'Barcos',           icon:'BAR',  minRole:'viewer', enabled:true},
-  {id:'charts',    label:'Graficos',         icon:'GRA',  minRole:'analyst',enabled:true},
-  {id:'chat',      label:'Chat IA',          icon:'AI',   minRole:'analyst',enabled:true},
+  {id:'charts',    label:'Graficos',         icon:'GRA',  minRole:'viewer', enabled:true},
+  {id:'chat',      label:'Chat IA',          icon:'AI',   minRole:'viewer', enabled:true},
   {id:'calc',      label:'Calculadora',      icon:'CALC', minRole:'viewer', enabled:true},
-  {id:'prediccion',label:'Prediccion IA',    icon:'PRED', minRole:'analyst',enabled:true},
-  {id:'updates',   label:'Log Sistema',      icon:'LOG',  minRole:'analyst',enabled:true},
-  {id:'electricidad',label:'Red Electrica',   icon:'ELEC', minRole:'viewer', enabled:true}
+  {id:'prediccion',label:'Prediccion IA',    icon:'PRED', minRole:'viewer', enabled:true},
+  {id:'updates',   label:'Log Sistema',      icon:'LOG',  minRole:'viewer', enabled:true},
+  {id:'electricidad',label:'Red Electrica',  icon:'ELEC', minRole:'viewer', enabled:true}
 ];
 
 var PERMS = {
-  viewer:  ['map','news','fuel','tankers','calc','electricidad'],
+  viewer:  ['map','tension','news','fuel','flows','tankers','charts','chat','calc','prediccion','updates','electricidad'],
   analyst: ['map','tension','news','fuel','flows','tankers','charts','chat','calc','prediccion','updates','electricidad'],
-  admin:   ['map','tension','news','fuel','flows','tankers','charts','chat','calc','prediccion','updates','electricidad','admin']
+  admin:   ['map','tension','news','fuel','flows','tankers','charts','chat','calc','prediccion','updates','electricidad']
 };
 
 var DEFAULT_THRESHOLDS = {
