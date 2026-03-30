@@ -18,6 +18,26 @@
 </head>
 <body>
 
+<!-- LOGIN (solo admin) -->
+<div id="login-screen" style="display:none">
+  <div class="login-wrap">
+    <div class="login-logo">HIP</div>
+    <div class="login-sub">Hormuz Intelligence Platform &middot; v8</div>
+    <div class="login-box">
+      <label class="lbl">Usuario Admin</label>
+      <input class="linp" id="lu" type="text" placeholder="usuario" autocomplete="off" spellcheck="false">
+      <label class="lbl">Contrase&ntilde;a</label>
+      <input class="linp" id="lp" type="password" placeholder="contrase&ntilde;a" autocomplete="off">
+      <button class="lbtn" onclick="doLogin()">ACCEDER</button>
+      <div class="lerr" id="lerr"></div>
+    </div>
+    <button id="login-back-btn" onclick="backToPublic()">&larr; Volver al dashboard p&uacute;blico</button>
+    <div class="lstatbar">
+      <span><span class="lsdot"></span>SISTEMA OPERATIVO</span>
+      <span>&middot;</span><span id="ls-clk"></span>
+    </div>
+  </div>
+</div>
 
 <!-- PRESENTATION -->
 <div id="pres-overlay">
@@ -63,6 +83,15 @@
     <button class="pres-btn" onclick="enterPres()">BOARDROOM</button>
     <span class="hdate" id="hdate">--</span>
     <div class="live-pill"><div class="live-dot"></div><span style="font-family:'JetBrains Mono',monospace;font-size:.52rem;color:#ef4444;letter-spacing:1px">LIVE</span></div>
+    <div id="admin-hint" onclick="showAdminLogin()" title="Acceso administrador">
+      <span style="font-size:.85rem">🔐</span>
+      <span class="ah-txt">Admin</span>
+    </div>
+    <div class="ub" id="user-badge" style="display:none">
+      <div class="ub-av" id="ub-av">?</div>
+      <div><div class="ub-name" id="ub-name">--</div><div class="ub-role" id="ub-role">--</div></div>
+    </div>
+    <button class="logout-btn" id="logout-btn" style="display:none" onclick="doLogout()">SALIR</button>
     <button class="theme-btn" id="theme-toggle" onclick="toggleTheme()" title="Cambiar tema">☀</button>
     <button class="hamburger-btn" id="hamburger-btn" onclick="toggleMobileMenu()">
       <div class="ham-line"></div>
@@ -318,34 +347,54 @@
 
 <!-- TANKERS -->
 <div id="tab-tankers" class="panel">
+
+  <!-- OVERLAY + PANEL DETALLE -->
+  <div id="ship-detail-overlay" onclick="closeShipDetail()"></div>
+  <div id="ship-detail-panel"></div>
+
+  <!-- KPIs RESUMEN -->
+  <div class="tk-kpis">
+    <div class="tk-kpi"><div class="tk-kpi-lbl">TOTAL BARCOS</div><div class="tk-kpi-val" id="tk-total">—</div></div>
+    <div class="tk-kpi tk-kpi-red"><div class="tk-kpi-lbl">ATACADOS</div><div class="tk-kpi-val cre" id="tk-attacked">—</div></div>
+    <div class="tk-kpi tk-kpi-ylw"><div class="tk-kpi-lbl">BLOQUEADOS</div><div class="tk-kpi-val cyl" id="tk-waiting">—</div></div>
+    <div class="tk-kpi tk-kpi-grn"><div class="tk-kpi-lbl">EN TRÁNSITO</div><div class="tk-kpi-val cgr" id="tk-transit">—</div></div>
+    <div class="tk-kpi tk-kpi-red"><div class="tk-kpi-lbl">RIESGO CRÍTICO</div><div class="tk-kpi-val cre" id="tk-critical">—</div></div>
+    <div class="tk-kpi"><div class="tk-kpi-lbl">VALOR TOTAL</div><div class="tk-kpi-val cor" id="tk-val">—</div></div>
+    <div class="tk-kpi"><div class="tk-kpi-lbl">TONELADAS</div><div class="tk-kpi-val" id="tk-tons">—</div></div>
+  </div>
+
+  <!-- BARRA DE FILTROS -->
   <div class="fbar">
-    <input class="fsearch" type="text" id="srch" placeholder="Buscar nombre, bandera, cargo..." oninput="renderTable()" maxlength="100" autocomplete="off">
-    <button class="fbtn active" onclick="setF('all',this)">TODOS</button>
+    <input class="fsearch" type="text" id="srch" placeholder="Buscar nombre, bandera, cargo, destino, notas..." oninput="renderTable()" maxlength="100" autocomplete="off">
+    <button class="fbtn fbtn-all active" onclick="setF('all',this)">TODOS</button>
     <button class="fbtn" onclick="setF('loaded',this)">CARGADOS</button>
     <button class="fbtn" onclick="setF('attacked',this)">ATACADOS</button>
-    <button class="fbtn" onclick="setF('transit',this)">TRANSITADOS</button>
+    <button class="fbtn" onclick="setF('transit',this)">TRÁNSITO</button>
     <button class="fbtn" onclick="setF('waiting',this)">EN ESPERA</button>
-    <select class="ssort" id="srt" onchange="renderTable()">
-      <option value="name">Nombre A-Z</option>
-      <option value="tons">Toneladas</option>
-      <option value="value">Valor</option>
-      <option value="status">Estado</option>
-    </select>
     <span class="rcount" id="rc"></span>
-    <button class="exbtn" onclick="doCSV()">CSV</button>
+    <button class="exbtn" onclick="doCSV()" title="Exportar todos los datos a CSV">⬇ CSV</button>
   </div>
+
+  <!-- TABLA -->
   <div class="twrap">
-    <table><thead><tr>
-      <th onclick="sc('flag',this)">BANDERA</th>
-      <th onclick="sc('name',this)">NOMBRE / TIPO</th>
-      <th onclick="sc('status',this)">ESTADO</th>
-      <th onclick="sc('position',this)">POSICION</th>
-      <th>CARGO</th>
-      <th onclick="sc('tons',this)">TONELADAS</th>
-      <th onclick="sc('value',this)">VALOR</th>
-      <th>OPERADOR</th>
-    </tr></thead>
-    <tbody id="tbody"></tbody></table>
+    <table>
+      <thead><tr>
+        <th onclick="sc('flag',this)">BANDERA</th>
+        <th onclick="sc('name',this)">NOMBRE / TIPO</th>
+        <th onclick="sc('status',this)">ESTADO</th>
+        <th onclick="sc('position',this)">POSICIÓN</th>
+        <th>CARGO</th>
+        <th onclick="sc('tons',this)">TONELADAS</th>
+        <th onclick="sc('value',this)">VALOR</th>
+        <th>OPERADOR</th>
+        <th onclick="sc('speed',this)">VELOC.</th>
+        <th onclick="sc('risk',this)">RIESGO</th>
+      </tr></thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+  <div style="font-family:'JetBrains Mono',monospace;font-size:.48rem;color:var(--mut3);padding:.4rem var(--gap)">
+    Haz clic en cualquier fila para ver el detalle completo del barco · Columnas ordenables
   </div>
 </div>
 
@@ -409,6 +458,319 @@
   </div>
 </div>
 
+
+<!-- CALCULADORA IMPACTO PERSONAL -->
+<div id="tab-calc" class="panel">
+<div style="padding:1.2rem">
+  <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:3px;color:#f97316;margin-bottom:.3rem">CALCULADORA DE IMPACTO PERSONAL</div>
+  <div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;color:#4d6a90;margin-bottom:1.5rem">Cuanto te esta costando la crisis del Estrecho de Hormuz a ti cada mes</div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.2rem;margin-bottom:1.5rem">
+    <div style="background:var(--card2);border:1px solid var(--bor2);border-radius:10px;padding:1.2rem">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;color:#f97316;letter-spacing:2px;text-transform:uppercase;margin-bottom:1rem">VEHICULO</div>
+
+      <div style="margin-bottom:.9rem">
+        <label style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:#4d6a90;letter-spacing:1px;display:block;margin-bottom:.35rem">TIPO DE COMBUSTIBLE</label>
+        <select id="calc-tipo" onchange="calcImpact()" style="width:100%;background:var(--bg);border:1px solid var(--bor3);border-radius:4px;padding:.45rem .7rem;color:var(--txt);font-family:'JetBrains Mono',monospace;font-size:.65rem;outline:none">
+          <option value="sp95">Gasolina SP95</option>
+          <option value="sp98">Gasolina SP98</option>
+          <option value="diesel">Gasoil A (Diesel)</option>
+          <option value="dieselp">Gasoil Premium</option>
+          <option value="autogas">Autogas GLP</option>
+        </select>
+      </div>
+
+      <div style="margin-bottom:.9rem">
+        <label style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:#4d6a90;letter-spacing:1px;display:block;margin-bottom:.35rem">LITROS AL MES</label>
+        <input id="calc-litros" type="number" value="80" min="1" max="500" oninput="calcImpact()"
+          style="width:100%;background:var(--bg);border:1px solid var(--bor3);border-radius:4px;padding:.45rem .7rem;color:var(--txt);font-family:'JetBrains Mono',monospace;font-size:.7rem;outline:none">
+      </div>
+    </div>
+
+    <div style="background:var(--card2);border:1px solid var(--bor2);border-radius:10px;padding:1.2rem">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.58rem;color:#f97316;letter-spacing:2px;text-transform:uppercase;margin-bottom:1rem">HOGAR</div>
+
+      <div style="margin-bottom:.9rem">
+        <label style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:#4d6a90;letter-spacing:1px;display:block;margin-bottom:.35rem">CONSUMO ELECTRICO kWh/MES</label>
+        <input id="calc-kwh" type="number" value="300" min="0" max="2000" oninput="calcImpact()"
+          style="width:100%;background:var(--bg);border:1px solid var(--bor3);border-radius:4px;padding:.45rem .7rem;color:var(--txt);font-family:'JetBrains Mono',monospace;font-size:.7rem;outline:none">
+      </div>
+
+      <div style="margin-bottom:.9rem">
+        <label style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:#4d6a90;letter-spacing:1px;display:block;margin-bottom:.35rem">GASOIL CALEFACCION litros/mes</label>
+        <input id="calc-calef" type="number" value="0" min="0" max="500" oninput="calcImpact()"
+          style="width:100%;background:var(--bg);border:1px solid var(--bor3);border-radius:4px;padding:.45rem .7rem;color:var(--txt);font-family:'JetBrains Mono',monospace;font-size:.7rem;outline:none">
+      </div>
+    </div>
+  </div>
+
+  <!-- RESULTADO -->
+  <div id="calc-result" style="background:linear-gradient(135deg,rgba(249,115,22,.08),rgba(239,68,68,.05));border:1px solid rgba(249,115,22,.2);border-radius:12px;padding:1.5rem;margin-bottom:1.2rem">
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;margin-bottom:1.2rem">
+      <div style="text-align:center">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.52rem;color:#4d6a90;letter-spacing:1px;text-transform:uppercase;margin-bottom:.3rem">Coste EXTRA/mes</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:#ef4444" id="calc-extra">--</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.52rem;color:#4d6a90">EUR/mes</div>
+      </div>
+      <div style="text-align:center">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.52rem;color:#4d6a90;letter-spacing:1px;text-transform:uppercase;margin-bottom:.3rem">Coste EXTRA/año</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:#f97316" id="calc-anual">--</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.52rem;color:#4d6a90">EUR/año</div>
+      </div>
+      <div style="text-align:center">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.52rem;color:#4d6a90;letter-spacing:1px;text-transform:uppercase;margin-bottom:.3rem">Gasolina pre-crisis</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:#10b981" id="calc-antes">--</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.52rem;color:#4d6a90">EUR/mes</div>
+      </div>
+      <div style="text-align:center">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.52rem;color:#4d6a90;letter-spacing:1px;text-transform:uppercase;margin-bottom:.3rem">Gasolina ahora</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:#ef4444" id="calc-ahora">--</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.52rem;color:#4d6a90">EUR/mes</div>
+      </div>
+    </div>
+    <div id="calc-msg" style="font-family:'JetBrains Mono',monospace;font-size:.68rem;color:var(--txt2);text-align:center;padding:.6rem;background:rgba(0,0,0,.2);border-radius:6px;line-height:1.6"></div>
+  </div>
+
+  <div style="background:var(--card2);border:1px solid var(--bor2);border-radius:8px;padding:1rem">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:#4d6a90;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:.7rem">IMPACTO EN ESPAÑA (estimacion total)</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;text-align:center">
+      <div><div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:#ef4444">+4.200M EUR</div><div style="font-family:'JetBrains Mono',monospace;font-size:.52rem;color:#4d6a90">Coste extra gasolina/mes ES</div></div>
+      <div><div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:#f97316">+38%</div><div style="font-family:'JetBrains Mono',monospace;font-size:.52rem;color:#4d6a90">Subida media carburantes</div></div>
+      <div><div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;color:#f59e0b" id="calc-dias-total">--</div><div style="font-family:'JetBrains Mono',monospace;font-size:.52rem;color:#4d6a90">Dias de bloqueo acumulados</div></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- PREDICCION IA -->
+<div id="tab-prediccion" class="panel">
+<div style="padding:1.2rem">
+  <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:3px;color:#8b5cf6;margin-bottom:.3rem">PREDICCION IA — ESCENARIOS DE CRISIS</div>
+  <div style="font-family:'JetBrains Mono',monospace;font-size:.6rem;color:#4d6a90;margin-bottom:1.5rem">Claude Haiku analiza los datos actuales y genera predicciones sobre la evolucion de la crisis</div>
+
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem;margin-bottom:1.2rem">
+    <div style="background:var(--card2);border:1px solid var(--bor2);border-radius:8px;padding:1rem">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:#4d6a90;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:.7rem">PARAMETROS DE ANALISIS</div>
+      <div style="font-size:.68rem;color:var(--txt2);line-height:2">
+        <div style="display:flex;justify-content:space-between"><span style="color:#4d6a90">Dias de bloqueo</span><span id="pred-dias" style="color:#f97316;font-family:'JetBrains Mono',monospace">--</span></div>
+        <div style="display:flex;justify-content:space-between"><span style="color:#4d6a90">Brent actual</span><span id="pred-brent" style="color:#f97316;font-family:'JetBrains Mono',monospace">--</span></div>
+        <div style="display:flex;justify-content:space-between"><span style="color:#4d6a90">Buques varados</span><span id="pred-ships" style="color:#ef4444;font-family:'JetBrains Mono',monospace">--</span></div>
+        <div style="display:flex;justify-content:space-between"><span style="color:#4d6a90">Tension</span><span id="pred-tens" style="color:#f59e0b;font-family:'JetBrains Mono',monospace">--</span></div>
+        <div style="display:flex;justify-content:space-between"><span style="color:#4d6a90">Ataques</span><span id="pred-atk" style="color:#ef4444;font-family:'JetBrains Mono',monospace">--</span></div>
+      </div>
+    </div>
+
+    <div style="background:var(--card2);border:1px solid var(--bor2);border-radius:8px;padding:1rem;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:.8rem">
+      <button id="pred-btn" onclick="runPrediccion()"
+        style="background:linear-gradient(135deg,#8b5cf6,#6d28d9);border:none;border-radius:8px;padding:.7rem 1.5rem;color:#fff;font-family:'Bebas Neue',sans-serif;font-size:1rem;letter-spacing:2px;cursor:pointer;transition:all .2s;width:100%">
+        GENERAR PREDICCION IA
+      </button>
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:#4d6a90;text-align:center">Requiere API key de Anthropic<br>en la barra superior</div>
+      <div id="pred-last" style="font-family:'JetBrains Mono',monospace;font-size:.52rem;color:#2d4060"></div>
+    </div>
+  </div>
+
+  <!-- RESULTADO PREDICCION -->
+  <div id="pred-result" style="display:none">
+    <!-- escenarios -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;margin-bottom:1rem" id="pred-scenarios"></div>
+    <!-- analisis completo -->
+    <div style="background:var(--card2);border:1px solid rgba(139,92,246,.2);border-radius:10px;padding:1.2rem;margin-bottom:1rem">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:.55rem;color:#8b5cf6;letter-spacing:2px;text-transform:uppercase;margin-bottom:.8rem">ANALISIS COMPLETO</div>
+      <div id="pred-text" style="font-size:.72rem;color:var(--txt2);line-height:1.8;white-space:pre-wrap"></div>
+    </div>
+    <!-- brent prediction -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem">
+      <div style="background:var(--card2);border:1px solid var(--bor2);border-radius:8px;padding:1rem;text-align:center">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.52rem;color:#4d6a90;margin-bottom:.4rem">BRENT 30 DIAS</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem" id="pred-b30">--</div>
+      </div>
+      <div style="background:var(--card2);border:1px solid var(--bor2);border-radius:8px;padding:1rem;text-align:center">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.52rem;color:#4d6a90;margin-bottom:.4rem">BRENT 60 DIAS</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem" id="pred-b60">--</div>
+      </div>
+      <div style="background:var(--card2);border:1px solid var(--bor2);border-radius:8px;padding:1rem;text-align:center">
+        <div style="font-family:'JetBrains Mono',monospace;font-size:.52rem;color:#4d6a90;margin-bottom:.4rem">FIN BLOQUEO EST.</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.3rem" id="pred-fin">--</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LOADING -->
+  <div id="pred-loading" style="display:none;text-align:center;padding:3rem">
+    <div style="font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#8b5cf6;letter-spacing:2px;margin-bottom:1rem">ANALIZANDO DATOS CON IA...</div>
+    <div style="display:flex;justify-content:center;gap:6px">
+      <div style="width:8px;height:8px;border-radius:50%;background:#8b5cf6;animation:tD 1.2s infinite"></div>
+      <div style="width:8px;height:8px;border-radius:50%;background:#8b5cf6;animation:tD 1.2s .2s infinite"></div>
+      <div style="width:8px;height:8px;border-radius:50%;background:#8b5cf6;animation:tD 1.2s .4s infinite"></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ADMIN PANEL -->
+<div id="tab-admin" class="panel">
+<div style="padding:1.2rem">
+  <div style="font-family:'Bebas Neue',sans-serif;font-size:1.4rem;letter-spacing:3px;color:#ef4444;margin-bottom:1.2rem;display:flex;align-items:center;gap:.8rem">
+    PANEL DE ADMINISTRACION
+    <span style="font-family:'JetBrains Mono',monospace;font-size:.6rem;color:#2d4060;font-weight:400;letter-spacing:1px;text-transform:none">Solo visible para admin</span>
+  </div>
+  <div class="adm-layout">
+    <!-- NAV -->
+    <div class="adm-nav">
+      <button class="adm-nav-btn active" data-adm-sec="modules" onclick="showAdminSection('modules',this)">MODULOS</button>
+      <button class="adm-nav-btn" data-adm-sec="users" onclick="showAdminSection('users',this)">USUARIOS</button>
+      <button class="adm-nav-btn" data-adm-sec="thresholds" onclick="showAdminSection('thresholds',this)">ALERTAS</button>
+      <button class="adm-nav-btn" data-adm-sec="kpis" onclick="showAdminSection('kpis',this)">KPIs</button>
+      <button class="adm-nav-btn" data-adm-sec="audit" onclick="showAdminSection('audit',this)">AUDIT LOG</button>
+      <button class="adm-nav-btn" data-adm-sec="wizard" onclick="showAdminSection('wizard',this)">+ MODULO</button>
+    </div>
+    <!-- CONTENT -->
+    <div class="adm-content">
+
+      <!-- MODULES -->
+      <div class="adm-sec" id="adm-modules">
+        <div class="adm-sec-ttl">GESTOR DE MODULOS <span>Activa o desactiva pestanas para todos los usuarios</span></div>
+        <div id="adm-modules-list"></div>
+        <div style="margin-top:1rem;padding:.7rem;background:rgba(249,115,22,.06);border:1px solid rgba(249,115,22,.15);border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:.6rem;color:#4d6a90">
+          Los cambios se aplican inmediatamente. El rol minimo define quien puede ver cada modulo.
+        </div>
+      </div>
+
+      <!-- USERS -->
+      <div class="adm-sec" id="adm-users" style="display:none">
+        <div class="adm-sec-ttl">GESTION DE USUARIOS <span>Anadir, editar y eliminar accesos</span></div>
+        <div id="adm-users-list"></div>
+        <div class="adm-add-form">
+          <div class="adm-add-ttl">NUEVO USUARIO</div>
+          <div class="adm-form-grid">
+            <div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.52rem;color:#2d4060;margin-bottom:.3rem;letter-spacing:1px">USUARIO (login)</div>
+              <input class="adm-inp" id="nu-username" type="text" placeholder="nombre_usuario" autocomplete="off">
+            </div>
+            <div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.52rem;color:#2d4060;margin-bottom:.3rem;letter-spacing:1px">NOMBRE COMPLETO</div>
+              <input class="adm-inp" id="nu-name" type="text" placeholder="Nombre Apellido" autocomplete="off">
+            </div>
+            <div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.52rem;color:#2d4060;margin-bottom:.3rem;letter-spacing:1px">CONTRASENA</div>
+              <input class="adm-inp" id="nu-pass" type="password" placeholder="Min 4 caracteres" autocomplete="off">
+            </div>
+            <div>
+              <div style="font-family:'JetBrains Mono',monospace;font-size:.52rem;color:#2d4060;margin-bottom:.3rem;letter-spacing:1px">ROL</div>
+              <select class="adm-sel" id="nu-role">
+                <option value="viewer">Viewer (solo mapa + barcos)</option>
+                <option value="analyst">Analista (dashboard completo)</option>
+                <option value="admin">Admin (todo + panel admin)</option>
+              </select>
+            </div>
+          </div>
+          <button class="adm-add-btn" onclick="addNewUser()">CREAR USUARIO</button>
+        </div>
+      </div>
+
+      <!-- THRESHOLDS -->
+      <div class="adm-sec" id="adm-thresholds" style="display:none">
+        <div class="adm-sec-ttl">UMBRALES DE ALERTA <span>Define cuando se activa la barra roja de alerta</span></div>
+        <div id="adm-thr-list"></div>
+        <div style="margin-top:1rem;padding:.7rem;background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.15);border-radius:6px;font-family:'JetBrains Mono',monospace;font-size:.6rem;color:#4d6a90">
+          Cuando un valor supera el umbral configurado, aparece la barra de alerta roja en la cabecera. Los umbrales se comprueban en cada actualizacion de datos.
+        </div>
+      </div>
+
+      <!-- KPIs -->
+      <div class="adm-sec" id="adm-kpis" style="display:none">
+        <div class="adm-sec-ttl">PERSONALIZAR KPIs <span>Elige que metricas aparecen en la barra de stats</span></div>
+        <div id="adm-kpis-list"></div>
+      </div>
+
+      <!-- AUDIT -->
+      <div class="adm-sec" id="adm-audit" style="display:none">
+        <div class="adm-sec-ttl">AUDIT LOG <span>Registro de todos los accesos y acciones</span>
+          <button class="adm-btn adm-btn-del" onclick="clearAudit()" style="font-size:.5rem">LIMPIAR</button>
+        </div>
+        <div class="adm-audit-wrap" id="adm-audit-body"></div>
+      </div>
+
+      <!-- WIZARD -->
+      <div class="adm-sec" id="adm-wizard" style="display:none">
+        <div class="adm-sec-ttl">WIZARD &mdash; NUEVO MODULO <span>Anade una nueva pestana al dashboard</span></div>
+        <div class="wiz-progress">
+          <div class="wiz-dot active" id="wiz-dot-1">1</div>
+          <div class="wiz-line"></div>
+          <div class="wiz-dot" id="wiz-dot-2">2</div>
+          <div class="wiz-line"></div>
+          <div class="wiz-dot" id="wiz-dot-3">3</div>
+          <div class="wiz-line"></div>
+          <div class="wiz-dot" id="wiz-dot-4">4</div>
+        </div>
+
+        <!-- Step 1: Identity -->
+        <div id="wiz-step-1">
+          <div class="wiz-ttl">PASO 1: IDENTIDAD DEL MODULO</div>
+          <div class="wiz-sub">Define el nombre e ID que tendra el nuevo modulo en el sistema</div>
+          <div class="wiz-field">
+            <label class="wiz-lbl">ID interno (sin espacios, solo letras/numeros)</label>
+            <input class="adm-inp" id="wiz-id" type="text" placeholder="ej: escenarios" style="max-width:280px" oninput="this.value=this.value.replace(/[^a-z0-9_]/g,'')">
+          </div>
+          <div class="wiz-field">
+            <label class="wiz-lbl">Nombre visible en la pestana</label>
+            <input class="adm-inp" id="wiz-label" type="text" placeholder="ej: Simulador Escenarios" style="max-width:280px">
+          </div>
+          <div class="wiz-field">
+            <label class="wiz-lbl">Rol minimo para ver este modulo</label>
+            <select class="adm-sel" id="wiz-role" style="max-width:280px">
+              <option value="viewer">Viewer</option>
+              <option value="analyst" selected>Analista</option>
+              <option value="admin">Admin</option>
+            </select>
+          </div>
+          <div class="wiz-btns">
+            <button class="wiz-btn wiz-btn-next" onclick="wizNext()">SIGUIENTE &rarr;</button>
+          </div>
+        </div>
+
+        <!-- Step 2: Content -->
+        <div id="wiz-step-2" style="display:none">
+          <div class="wiz-ttl">PASO 2: CONTENIDO HTML</div>
+          <div class="wiz-sub">Pega el HTML del modulo. Puede incluir estilos inline y scripts. Para widgets complejos, pide ayuda a Claude.</div>
+          <div class="wiz-field">
+            <label class="wiz-lbl">HTML del modulo (se envolvera en un div con id="tab-[ID]")</label>
+            <textarea class="wiz-textarea" id="wiz-html" placeholder="&lt;div style=&quot;padding:1.2rem&quot;&gt;&#10;  &lt;h2&gt;Mi nuevo modulo&lt;/h2&gt;&#10;  &lt;p&gt;Contenido aqui...&lt;/p&gt;&#10;&lt;/div&gt;"></textarea>
+          </div>
+          <div class="wiz-btns">
+            <button class="wiz-btn wiz-btn-back" onclick="wizBack()">&larr; ATRAS</button>
+            <button class="wiz-btn wiz-btn-next" onclick="wizNext()">PREVISUALIZAR &rarr;</button>
+          </div>
+        </div>
+
+        <!-- Step 3: Preview -->
+        <div id="wiz-step-3" style="display:none">
+          <div class="wiz-ttl">PASO 3: PREVISUALIZACION</div>
+          <div class="wiz-sub">Asi se vera el modulo. Comprueba que el HTML es correcto antes de instalarlo.</div>
+          <div class="wiz-preview" id="wiz-preview"></div>
+          <div class="wiz-btns">
+            <button class="wiz-btn wiz-btn-back" onclick="wizBack()">&larr; ATRAS</button>
+            <button class="wiz-btn wiz-btn-next" onclick="wizNext()">CONFIRMAR &rarr;</button>
+          </div>
+        </div>
+
+        <!-- Step 4: Confirm -->
+        <div id="wiz-step-4" style="display:none">
+          <div class="wiz-ttl">PASO 4: CONFIRMAR INSTALACION</div>
+          <div class="wiz-sub">Revisa el resumen antes de instalar el modulo en el dashboard.</div>
+          <div class="wiz-summary" id="wiz-summary"></div>
+          <div class="wiz-btns">
+            <button class="wiz-btn wiz-btn-back" onclick="wizBack()">&larr; ATRAS</button>
+            <button class="wiz-btn wiz-btn-finish" onclick="wizFinish()">INSTALAR MODULO</button>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /.adm-content -->
+  </div><!-- /.adm-layout -->
+</div>
+</div>
 
 <!-- CALCULADORA IMPACTO PERSONAL -->
 <div id="tab-calc" class="panel">
