@@ -30,8 +30,6 @@ var URLS_TO_CACHE = [
   './js/prediccion.js',
   './js/admin.js',
   './js/pwa.js',
-  './js/electricidad.js',
-  './js/intel.js',
   './js/app.js'
 ];
 
