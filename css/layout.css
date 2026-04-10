@@ -16,8 +16,6 @@ header {
   position: sticky; top: 0; z-index: 200;
   box-shadow: 0 2px 20px var(--shadow);
   gap: .5rem;
-  /* Evitar colapso de contenido en flex */
-  min-width: 0;
 }
 .logo {
   font-family: 'Bebas Neue', sans-serif;
@@ -157,14 +155,12 @@ header {
   padding: clamp(.4rem, 1.2vw, .65rem) clamp(.5rem, 1.5vw, .85rem);
   border-right: 1px solid var(--bor); cursor: default;
   overflow: hidden; position: relative;
-  /* Evitar overflow en grid */
-  min-width: 0;
 }
 .sbox:hover { background: var(--sur2); }
 .sbox:last-child { border-right: none; }
 .sbox.flash::after { content: ''; position: absolute; inset: 0; background: rgba(16,185,129,.06); animation: fG .9s forwards; pointer-events: none; }
 @keyframes fG { 0%{opacity:1} 100%{opacity:0} }
-.sl { font-family: 'JetBrains Mono', monospace; font-size: var(--fs-xs); color: var(--mut2); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sl { font-family: 'JetBrains Mono', monospace; font-size: var(--fs-xs); color: var(--mut2); letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 2px; }
 .sv { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.1rem, 3vw, 1.55rem); line-height: 1; }
 .ss { font-size: var(--fs-xs); color: var(--mut3); margin-top: 1px; }
 .ci { font-family: 'JetBrains Mono', monospace; font-size: .42rem; margin-left: 2px; }
@@ -173,22 +169,16 @@ header {
 .tabs {
   display: flex; background: var(--sur);
   border-bottom: 1px solid var(--bor);
-  padding: 0 clamp(.5rem, 1.5vw, 1.2rem);
+  padding: 0 clamp(.3rem, 1vw, .75rem);
   overflow-x: auto; scrollbar-width: none;
-  -webkit-overflow-scrolling: touch;
-  scroll-behavior: smooth;
 }
 .tabs::-webkit-scrollbar { display: none; }
 .tab {
   font-family: 'JetBrains Mono', monospace; font-size: var(--fs-xs);
-  letter-spacing: 1.5px; text-transform: uppercase;
-  padding: .65rem clamp(.6rem, 1.5vw, 1.1rem);
+  letter-spacing: .8px; text-transform: uppercase;
+  padding: .65rem clamp(.4rem, .9vw, .75rem);
   cursor: pointer; color: var(--mut3); border: none;
   border-bottom: 2px solid transparent; background: none; white-space: nowrap;
-  /* touch target */
-  min-height: 44px; display: inline-flex; align-items: center;
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
 }
 .tab:hover { color: var(--txt2); }
 .tab.active { color: var(--acc); border-bottom-color: var(--acc); }
@@ -206,7 +196,5 @@ footer {
   border-top: 1px solid var(--bor);
   font-size: var(--fs-xs); color: var(--mut3);
   font-family: 'JetBrains Mono', monospace;
-  line-height: 1.7;
-  /* El margin-bottom real se gestiona en responsive.css por breakpoint */
-  margin-bottom: 0;
+  line-height: 1.7; margin-bottom: 60px;
 }
