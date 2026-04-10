@@ -23,7 +23,7 @@ var STATE = {
 };
 var PREV = Object.assign({}, STATE);
 var LOG  = [];
-var UPD_MS = 1 * 60 * 60 * 1000;   /* actualización STATE cada 1 hora */
+var UPD_MS = 24 * 60 * 60 * 1000;
 var nextAt  = null;
 var cdTimer = null;
 
@@ -85,18 +85,18 @@ var NEWS = [
 
 /* ── MODULE SYSTEM ── */
 var DEFAULT_MODULES = [
-  {id:'map',       label:'Mapa Real',        icon:'MAP',  minRole:'viewer', enabled:true},
-  {id:'tension',   label:'Tension',          icon:'TEN',  minRole:'analyst',enabled:true},
-  {id:'news',      label:'Noticias',         icon:'NOT',  minRole:'viewer', enabled:true},
-  {id:'fuel',      label:'Combustibles',     icon:'GAS',  minRole:'viewer', enabled:true},
-  {id:'flows',     label:'Flujos Petroleo',  icon:'FLU',  minRole:'analyst',enabled:true},
-  {id:'tankers',   label:'Barcos',           icon:'BAR',  minRole:'viewer', enabled:true},
-  {id:'charts',    label:'Graficos',         icon:'GRA',  minRole:'analyst',enabled:true},
-  {id:'chat',      label:'Chat IA',          icon:'AI',   minRole:'analyst',enabled:true},
-  {id:'calc',      label:'Calculadora',      icon:'CALC', minRole:'viewer', enabled:true},
-  {id:'prediccion',label:'Prediccion IA',    icon:'PRED', minRole:'analyst',enabled:true},
-  {id:'updates',   label:'Log Sistema',      icon:'LOG',  minRole:'analyst',enabled:true},
-  {id:'electricidad',label:'Red Electrica',   icon:'ELEC', minRole:'viewer', enabled:true}
+  {id:'map',         label:'Mapa',          icon:'MAP',  minRole:'viewer',  enabled:true},
+  {id:'tension',     label:'Tensión',       icon:'TEN',  minRole:'analyst', enabled:true},
+  {id:'news',        label:'Noticias',      icon:'NOT',  minRole:'viewer',  enabled:true},
+  {id:'fuel',        label:'Combustible',   icon:'GAS',  minRole:'viewer',  enabled:true},
+  {id:'flows',       label:'Flujos',        icon:'FLU',  minRole:'analyst', enabled:true},
+  {id:'tankers',     label:'Barcos',        icon:'BAR',  minRole:'viewer',  enabled:true},
+  {id:'charts',      label:'Gráficos',      icon:'GRA',  minRole:'analyst', enabled:true},
+  {id:'chat',        label:'Chat IA',       icon:'AI',   minRole:'analyst', enabled:true},
+  {id:'calc',        label:'Calc',          icon:'CALC', minRole:'viewer',  enabled:true},
+  {id:'prediccion',  label:'Predicción',    icon:'PRED', minRole:'analyst', enabled:true},
+  {id:'updates',     label:'Log',           icon:'LOG',  minRole:'analyst', enabled:true},
+  {id:'electricidad',label:'Electricidad',  icon:'ELEC', minRole:'viewer',  enabled:true}
 ];
 
 var PERMS = {
