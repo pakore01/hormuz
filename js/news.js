@@ -47,19 +47,13 @@ function buildTicker(){
   tw.innerHTML=html+html;
 }
 
-/* ── Auto-refresh de noticias cada 60 min ── */
+/* ── Auto-refresh noticias cada 60 min ── */
 (function(){
-  var newsRefreshTimer = null;
+  var newsRefreshTimer=null;
   function startNewsRefresh(){
     if(newsRefreshTimer) clearInterval(newsRefreshTimer);
-    newsRefreshTimer = setInterval(function(){
-      loadNews();
-    }, 60 * 60 * 1000);
+    newsRefreshTimer=setInterval(function(){ loadNews(); }, 60*60*1000);
   }
-  /* Esperar a que la app esté lista antes de arrancar el timer */
-  if(document.readyState === 'complete'){
-    startNewsRefresh();
-  } else {
-    window.addEventListener('load', startNewsRefresh);
-  }
+  if(document.readyState==='complete'){ startNewsRefresh(); }
+  else { window.addEventListener('load', startNewsRefresh); }
 })();

@@ -23,7 +23,7 @@ var STATE = {
 };
 var PREV = Object.assign({}, STATE);
 var LOG  = [];
-var UPD_MS = 24 * 60 * 60 * 1000;
+var UPD_MS = 1 * 60 * 60 * 1000;  /* actualización STATE cada 1 hora */
 var nextAt  = null;
 var cdTimer = null;
 
@@ -86,21 +86,21 @@ var NEWS = [
 /* ── MODULE SYSTEM ── */
 var DEFAULT_MODULES = [
   {id:'map',         label:'Mapa',          icon:'MAP',  minRole:'viewer',  enabled:true},
-  {id:'tension',     label:'Tensión',       icon:'TEN',  minRole:'analyst', enabled:true},
+  {id:'tension',     label:'Tensión',       icon:'TEN',  minRole:'viewer',  enabled:true},
   {id:'news',        label:'Noticias',      icon:'NOT',  minRole:'viewer',  enabled:true},
   {id:'fuel',        label:'Combustible',   icon:'GAS',  minRole:'viewer',  enabled:true},
-  {id:'flows',       label:'Flujos',        icon:'FLU',  minRole:'analyst', enabled:true},
+  {id:'flows',       label:'Flujos',        icon:'FLU',  minRole:'viewer',  enabled:true},
   {id:'tankers',     label:'Barcos',        icon:'BAR',  minRole:'viewer',  enabled:true},
-  {id:'charts',      label:'Gráficos',      icon:'GRA',  minRole:'analyst', enabled:true},
-  {id:'chat',        label:'Chat IA',       icon:'AI',   minRole:'analyst', enabled:true},
+  {id:'charts',      label:'Gráficos',      icon:'GRA',  minRole:'viewer',  enabled:true},
+  {id:'chat',        label:'Chat IA',       icon:'AI',   minRole:'viewer',  enabled:true},
   {id:'calc',        label:'Calc',          icon:'CALC', minRole:'viewer',  enabled:true},
-  {id:'prediccion',  label:'Predicción',    icon:'PRED', minRole:'analyst', enabled:true},
-  {id:'updates',     label:'Log',           icon:'LOG',  minRole:'analyst', enabled:true},
+  {id:'prediccion',  label:'Predicción',    icon:'PRED', minRole:'viewer',  enabled:true},
+  {id:'updates',     label:'Log',           icon:'LOG',  minRole:'viewer',  enabled:true},
   {id:'electricidad',label:'Electricidad',  icon:'ELEC', minRole:'viewer',  enabled:true}
 ];
 
 var PERMS = {
-  viewer:  ['map','news','fuel','tankers','calc','electricidad'],
+  viewer:  ['map','tension','news','fuel','flows','tankers','charts','chat','calc','prediccion','updates','electricidad'],
   analyst: ['map','tension','news','fuel','flows','tankers','charts','chat','calc','prediccion','updates','electricidad'],
   admin:   ['map','tension','news','fuel','flows','tankers','charts','chat','calc','prediccion','updates','electricidad','admin']
 };
@@ -118,7 +118,6 @@ var DEFAULT_USERS = {
   'viewer':  {pass:'viewer123',  role:'viewer',  name:'Visualizador',   created:'2026-02-28'}
 };
 
-var MAP_IMGS   = {region:'', hormuz:'', mandeb:''};
 var MAP_BOUNDS = {
   region: {lngMin:27, lngMax:72, latMax:42, latMin:8},
   hormuz: {lngMin:48, lngMax:62, latMax:28, latMin:21.5},

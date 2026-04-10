@@ -53,7 +53,7 @@ document.addEventListener('keydown',function(e){ if(e.key==='Escape') exitPres()
 var TAB_ICONS = {
   map:'🗺️', tension:'🌡️', news:'📰', fuel:'⛽', flows:'🌊',
   tankers:'🚢', charts:'📊', chat:'💬', calc:'🧮',
-  prediccion:'🤖', updates:'🔄', electricidad:'⚡'
+  prediccion:'🤖', updates:'🔄', electricidad:'⚡', admin:'⚙️'
 };
 
 function buildTabs(){
@@ -67,6 +67,9 @@ function buildTabs(){
     if(!canAccess(m.id)) continue;
     html += '<button class="tab" id="tb-'+m.id+'" onclick="showTab(\''+m.id+'\',this)">'+
       (TAB_ICONS[m.id]||'')+'&nbsp;'+san(m.label)+'</button>';
+  }
+  if(currentUser && currentUser.role==='admin'){
+    html += '<button class="tab tab-admin" id="tb-admin" onclick="showTab(\'admin\',this)">⚙️&nbsp;Admin</button>';
   }
   tabsEl.innerHTML = html;
   buildMobileDrawer();
@@ -112,7 +115,14 @@ function buildMobileDrawer(){
       '<span class="drawer-icon">'+(TAB_ICONS[m.id]||'📋')+'</span>'+
       '<span class="drawer-label">'+san(m.label)+'</span></button>';
   }
+  if(currentUser && currentUser.role==='admin'){
+    html += '<button class="drawer-item drawer-admin" onclick="showTab(\'admin\',this)">'+
+      '<span class="drawer-icon">⚙️</span><span class="drawer-label">Admin</span></button>';
+  }
   html += '</div>';
+  if(!currentUser){
+    html += '<div class="drawer-footer"><button onclick="closeMobileMenu();showAdminLogin()" class="drawer-login-btn">🔐 Acceso Admin</button></div>';
+  }
   drawer.innerHTML = html;
 }
 
@@ -120,7 +130,7 @@ function buildMobileDrawer(){
 var newsLoaded2 = false;
 
 function showTab(tab, btn){
-  if(!canAccess(tab)){ return; }
+  if(!canAccess(tab) && tab!=='admin'){ return; }
   document.querySelectorAll('.tab').forEach(function(t){ t.classList.remove('active'); });
   document.querySelectorAll('.panel').forEach(function(p){ p.classList.remove('active'); });
   var panel = document.getElementById('tab-'+tab);
@@ -146,6 +156,11 @@ function showTab(tab, btn){
     var psh=document.getElementById('pred-ships'); if(psh) psh.textContent='~'+STATE.ships;
     var pt=document.getElementById('pred-tens'); if(pt) pt.textContent=STATE.tensionIndex+'/100';
     var pa=document.getElementById('pred-atk'); if(pa) pa.textContent=STATE.attacks;
+  }
+  if(tab==='admin'){
+    renderAdminModules();
+    var firstBtn=document.querySelector('[data-adm-sec="modules"]');
+    if(firstBtn) showAdminSection('modules',firstBtn);
   }
   if(currentUser) auditLog('TAB',tab,'nav');
 }
@@ -178,7 +193,36 @@ function initApp(){
 
 /* ── BOOTSTRAP ── */
 (function(){
-  initPublicMode();
+  /* Restore admin session */
+  var restored = false;
+  try{
+    var s = sessionStorage.getItem('hip8s');
+    if(s){
+      var o = JSON.parse(dec(s));
+      var users = getUsers();
+      var u = users[o.u];
+      if(u){
+        currentUser = {username:o.u, role:u.role, name:u.name};
+        isPublicMode = false;
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('app').style.display = 'block';
+        document.body.className = 'role-'+u.role;
+        document.getElementById('ub-av').textContent = u.role==='admin'?'A':'N';
+        document.getElementById('ub-name').textContent = u.name;
+        var rn={admin:'Admin',analyst:'Analista',viewer:'Viewer'};
+        document.getElementById('ub-role').textContent = rn[u.role]||u.role;
+        document.getElementById('ub-role').className = 'ub-role role-'+u.role;
+        var hint=document.getElementById('admin-hint'); if(hint) hint.style.display='none';
+        var ub=document.getElementById('user-badge'); if(ub) ub.style.display='flex';
+        var lb=document.getElementById('logout-btn'); if(lb) lb.style.display='block';
+        restored = true;
+        initApp();
+      }
+    }
+  }catch(e){}
+
+  if(!restored) initPublicMode();
+
   /* Register PWA service worker */
   registerSW();
 })();
