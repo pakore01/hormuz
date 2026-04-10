@@ -118,8 +118,8 @@
   .pres-kpis { grid-template-columns: repeat(2,1fr); }
 
   /* Panel padding for bottom nav */
-  .panel.active { padding-bottom: 60px; }
-  footer { margin-bottom: 60px; }
+  .panel.active { padding-bottom: 56px; }
+  footer { margin-bottom: 56px; }
 }
 
 /* MOBILE — ≤640px */
@@ -141,11 +141,9 @@
   #mtt  { min-width: 150px; max-width: 190px; }
   .mhint { display: none; }
 
-  /* Table — hide less important columns on mobile (now 10 cols total) */
+  /* Table — hide less important columns */
   td:nth-child(4), td:nth-child(5), td:nth-child(8),
   th:nth-child(4), th:nth-child(5), th:nth-child(8) { display: none; }
-  /* Also hide KPIs grid on very small screens */
-  .tk-kpis { grid-template-columns: repeat(4, 1fr); }
   .fbtn:not(.fbtn-all) { display: none; }
 
   /* Charts */
@@ -162,8 +160,4 @@
   .tg-wrap { display: none; }
   .sbar { grid-template-columns: repeat(2,1fr); }
   .adm-form-grid { grid-template-columns: 1fr; }
-  /* KPIs: 2 columnas en móvil pequeño */
-  .tk-kpis { grid-template-columns: repeat(2, 1fr); }
-  /* Panel detalle ocupa toda la pantalla en móvil pequeño */
-  #ship-detail-panel { width: 100%; right: -100%; }
 }

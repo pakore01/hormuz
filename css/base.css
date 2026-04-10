@@ -56,10 +56,6 @@ body {
   min-height: 100vh;
   overflow-x: hidden;
   line-height: 1.5;
-  /* Evitar rebote de scroll en iOS que rompe el layout */
-  overscroll-behavior-y: none;
-  /* Scroll suave en toda la página */
-  -webkit-overflow-scrolling: touch;
 }
 
 /* GRAIN OVERLAY */
